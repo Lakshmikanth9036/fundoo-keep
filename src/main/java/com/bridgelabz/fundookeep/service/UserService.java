@@ -7,7 +7,8 @@ import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 public interface UserService {
 
 	public void saveUser(RegistrationDTO register);
-	public int updateVerificationStatus(Long id);
-	public User loginByEmail(LoginDTO login);
-	public User loginByMobile(LoginDTO login);
+	public int updateVerificationStatus(String token);
+	public User loginByEmailOrMobile(LoginDTO login);
+	public void sendTokentoMail(String emailAddress);
+	public int resetPassword(String token, String newPassword);
 }

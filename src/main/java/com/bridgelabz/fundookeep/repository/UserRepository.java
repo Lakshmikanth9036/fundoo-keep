@@ -18,8 +18,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("update User u set u.isUserVerified=1 where u.id=:id")
 	int updateUserVerificationStatus(@Param("id") Long id);
 
-	User findByEmailAddress(String email);
+	User findByEmailAddressOrMobile(String email,Long mobile);
 
-	User findByMobile(Long mobile);
+	User findByEmailAddress(String emailAddress);
+
+	@Modifying
+	@Transactional
+	@Query("update User u set u.password=:newPassword where u.id=:id")
+	int updatePassword(@Param("id") Long id,@Param("newPassword") String newPassword);
 
 }

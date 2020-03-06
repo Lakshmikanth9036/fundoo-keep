@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bridgelabz.fundookeep.mailservice.MailService;
 import com.bridgelabz.fundookeep.repository.UserRepositoryService;
+import com.bridgelabz.fundookeep.utils.JwtUtils;
+import com.bridgelabz.fundookeep.utils.MailService;
 
 @Configuration
 public class FundooKeepConfig {
@@ -24,6 +25,11 @@ public class FundooKeepConfig {
 	@Bean
 	public MailService getMailService() {
 		return new MailService();
+	}
+	
+	@Bean
+	public JwtUtils getJwtUtils() {
+		return new JwtUtils();
 	}
 }
 
