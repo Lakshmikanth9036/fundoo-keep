@@ -1,0 +1,9 @@
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/fundoo_keep?createDatabaseIfNotExist=true
+    username: root
+    password: password
+  mail:
+    username: kanth1997.9036@gmail.com
+    password: 9449302432hema
