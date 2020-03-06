@@ -40,21 +40,12 @@ public class User {
 	@Column(name = "CreatedUserAt", nullable = false)
 	private LocalDateTime createUser;
 
-	@Column(name = "UserCreatedBy", nullable = false, columnDefinition = "varchar(10) default \"USER\"")
-	private String userCreatedBy;
-
 	@Column(name = "UserUpdatedAt", nullable = false)
 	private LocalDateTime updateUser;
 
-	@Column(name = "UserUpdatedBy", nullable = false, columnDefinition = "varchar(10) default \"USER\"")
-	private String userUpdatedBy;
-
-	public User() {
-		// TODO Auto-generated constructor stub
-	}
+	public User() {	}
 
 	public User(RegistrationDTO register) {
-//		super();
 		this.firstName = register.getFirstName();
 		this.lastName = register.getLastName();
 		this.emailAddress = register.getEmailAddress();
@@ -62,8 +53,6 @@ public class User {
 		this.password = register.getPassword();
 		this.createUser = LocalDateTime.now();
 		this.updateUser = LocalDateTime.now();
-		this.userCreatedBy = "USER";
-		this.userUpdatedBy = "USER";
 		this.isUserVerified = false;
 	}
 
@@ -123,28 +112,12 @@ public class User {
 		this.createUser = createUser;
 	}
 
-	public String getUserCreatedBy() {
-		return userCreatedBy;
-	}
-
-	public void setUserCreatedBy(String userCreatedBy) {
-		this.userCreatedBy = userCreatedBy;
-	}
-
 	public LocalDateTime getUpdateUser() {
 		return updateUser;
 	}
 
 	public void setUpdateUser(LocalDateTime updateUser) {
 		this.updateUser = updateUser;
-	}
-
-	public String getUserUpdatedBy() {
-		return userUpdatedBy;
-	}
-
-	public void setUserUpdatedBy(String userUpdatedBy) {
-		this.userUpdatedBy = userUpdatedBy;
 	}
 
 	public boolean isUserVerified() {

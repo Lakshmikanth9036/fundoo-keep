@@ -17,6 +17,7 @@ import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 import com.bridgelabz.fundookeep.dto.Response;
+import com.bridgelabz.fundookeep.exception.BadRequestError;
 import com.bridgelabz.fundookeep.service.UserService;
 
 @RestController
@@ -35,13 +36,14 @@ public class UserController {
 	@PutMapping("/registration/verify/{token}")
 	private ResponseEntity<Response> userLoginVerification(@PathVariable String token) {
 		try {
-		if (service.updateVerificationStatus(token) > 0) {
-			return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), "Successfully Verified...!!!"));
-		}
-		return ResponseEntity.badRequest().body(new Response(HttpStatus.BAD_REQUEST.value(), "Something went Wrong...!!!"));
-		}
-		catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
+			if (service.updateVerificationStatus(token) > 0) {
+				return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), "Successfully Verified...!!!"));
+			}
+			return ResponseEntity.badRequest()
+					.body(new Response(HttpStatus.BAD_REQUEST.value(), "Something went Wrong...!!!"));
+		} catch (BadRequestError e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
 		}
 	}
 
@@ -54,7 +56,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 				.body(new Response(HttpStatus.NOT_FOUND.value(), "Warning Unable to login...!!!"));
 	}
-	
+
 	@PostMapping("/login/forgotpassword")
 	private ResponseEntity<Response> userLoginForgotpassword(@RequestParam String emailAddress) {
 		service.sendTokentoMail(emailAddress);
@@ -63,16 +65,16 @@ public class UserController {
 	}
 
 	@PutMapping("/login/forgotpassword/{token}")
-	private ResponseEntity<Response> userLoginForgotpasswordVerify(@PathVariable String token,@RequestParam String newPassword) {
+	private ResponseEntity<Response> userLoginForgotpasswordVerify(@PathVariable String token,
+			@RequestParam String newPassword) {
 		try {
-		if(service.resetPassword(token, newPassword)>0) {
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(new Response(HttpStatus.OK.value(), "Successfully changed the password"));
-		}
-		return ResponseEntity.badRequest()
-				.body(new Response(HttpStatus.BAD_REQUEST.value(), "unable to changed the password"));
-		}
-		catch(Exception e) {
+			if (service.resetPassword(token, newPassword) > 0) {
+				return ResponseEntity.status(HttpStatus.OK)
+						.body(new Response(HttpStatus.OK.value(), "Successfully changed the password"));
+			}
+			return ResponseEntity.badRequest()
+					.body(new Response(HttpStatus.BAD_REQUEST.value(), "unable to changed the password"));
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
 		}
