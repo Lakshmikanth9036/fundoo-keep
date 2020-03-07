@@ -1,24 +1,31 @@
 package com.bridgelabz.fundookeep.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
+import com.bridgelabz.fundookeep.exception.UserException;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
 import com.bridgelabz.fundookeep.utils.MailService;
 
 @Service
+@PropertySource("classpath:message.properties")	
 public class UserServiceProvider implements UserService {
 
 	@Autowired
 	private UserRepository repository;
 
 	@Autowired
-	private MailService ms;
+	private MailService mailService;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -26,44 +33,61 @@ public class UserServiceProvider implements UserService {
 	@Autowired
 	private JwtUtils jwts;
 
+	@Autowired
+	private Environment env;
+
 	public void saveUser(RegistrationDTO register) {
+
+		if (repository.findByEmailAddress(register.getEmailAddress()).isPresent()) 
+			throw new UserException(HttpStatus.FOUND.value(),env.getProperty("103"));
+		
+
 		register.setPassword(encoder.encode(register.getPassword()));
 		User user = new User(register);
-
-		User usr = repository.save(user);
-		if (usr != null) {
-			ms.sendMail(user,jwts.generateToken(user.getId()));
-		}
-	}
-
-	public int updateVerificationStatus(String token) {
-		Long id = jwts.decodeToken(token);
-		return repository.updateUserVerificationStatus(id);
-	}
-
-	public User loginByEmailOrMobile(LoginDTO login) {
-
-		User user = repository.findByEmailAddressOrMobile(login.getEmailAddress(), login.getMobile());
-		if (user.isUserVerified() && user != null) {
-			if (encoder.matches(login.getPassword(), user.getPassword())) {
-				return user;
+		try {
+			User usr = repository.save(user);
+			if (usr != null) {
+				mailService.sendMail(user, jwts.generateToken(user.getUserId()));
 			}
+		} catch (UserException e) {
+			throw new UserException(400,env.getProperty("102"));
 		}
-		return null;
+	}
+
+	public  int updateVerificationStatus(String token) {
+		Long id = jwts.decodeToken(token);
+		try {
+			return repository.updateUserVerificationStatus(id,LocalDateTime.now());
+		} catch (UserException e) {
+			throw new UserException(400,env.getProperty("102"));
+		}
+	}
+
+	public boolean loginByEmailOrMobile(LoginDTO login) {
+
+		User user = repository.findByEmailAddressOrMobile(login.getEmailAddress(), login.getMobile())
+				.orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		if (user.isUserVerified()) {
+			if (encoder.matches(login.getPassword(), user.getPassword())) {
+				return true;
+			}
+			throw new UserException(401,env.getProperty("401"));
+		}
+		return false;
 	}
 
 	public void sendTokentoMail(String emailAddress) {
 
-		User user = repository.findByEmailAddress(emailAddress);
-		String token = jwts.generateToken(user.getId());
-		ms.sendTokenToMail(token, emailAddress);
+		User user = repository.findByEmailAddress(emailAddress)
+				.orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		String token = jwts.generateToken(user.getUserId());
+		mailService.sendTokenToMail(token, emailAddress);
 
 	}
 
 	public int resetPassword(String token, String newPassword) {
 		Long id = jwts.decodeToken(token);
-		int status = repository.updatePassword(id, encoder.encode(newPassword));
-		return status;
+			return repository.updatePassword(id, encoder.encode(newPassword), LocalDateTime.now());
 	}
 
 }

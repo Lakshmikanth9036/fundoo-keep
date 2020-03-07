@@ -1,11 +1,15 @@
 package com.bridgelabz.fundookeep.dao;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,8 +20,8 @@ public class User {
 	@Id
 	@GenericGenerator(name = "idGen", strategy = "increment")
 	@GeneratedValue(generator = "idGen")
-	@Column(name = "UserID", nullable = false)
-	private Long id;
+	@Column(name = "UserID")
+	private Long userId;
 
 	@Column(name = "FirstName", nullable = false)
 	private String firstName;
@@ -42,6 +46,13 @@ public class User {
 
 	@Column(name = "UserUpdatedAt", nullable = false)
 	private LocalDateTime updateUser;
+	
+	@Column(name = "ProfilePic")
+	private String profilePic;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "UserId")
+	private List<Note> notes;
 
 	public User() {	}
 
@@ -56,12 +67,12 @@ public class User {
 		this.isUserVerified = false;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -127,5 +138,14 @@ public class User {
 	public void setUserVerified(boolean isUserVerified) {
 		this.isUserVerified = isUserVerified;
 	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+	
 
 }

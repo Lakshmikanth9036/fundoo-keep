@@ -1,5 +1,8 @@
 package com.bridgelabz.fundookeep.repository;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,16 +18,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Modifying
 	@Transactional
-	@Query("update User u set u.isUserVerified=1 where u.id=:id")
-	int updateUserVerificationStatus(@Param("id") Long id);
+	@Query("update User u set u.isUserVerified=1,u.updateUser=:time where u.userId=:id")
+	int updateUserVerificationStatus(@Param("id") Long id,@Param("time") LocalDateTime time);
 
-	User findByEmailAddressOrMobile(String email,Long mobile);
+	Optional<User> findByEmailAddressOrMobile(String email,Long mobile);
 
-	User findByEmailAddress(String emailAddress);
+	Optional<User> findByEmailAddress(String emailAddress);
 
 	@Modifying
 	@Transactional
-	@Query("update User u set u.password=:newPassword where u.id=:id")
-	int updatePassword(@Param("id") Long id,@Param("newPassword") String newPassword);
+	@Query("update User u set u.password=:newPassword,u.updateUser=:time where u.userId=:id")
+	int updatePassword(@Param("id") Long id,@Param("newPassword") String newPassword,@Param("time") LocalDateTime time);
 
 }

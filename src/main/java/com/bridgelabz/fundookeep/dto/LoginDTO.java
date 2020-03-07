@@ -1,8 +1,15 @@
 package com.bridgelabz.fundookeep.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 public class LoginDTO {
 
+	@NotNull(message = "Last Name field can't be empty!!!")
+	@Email(message = "Enter valid mail address!!!")
 	private String emailAddress;
+	
+	
 	private Long mobile;
 	private String password;
 

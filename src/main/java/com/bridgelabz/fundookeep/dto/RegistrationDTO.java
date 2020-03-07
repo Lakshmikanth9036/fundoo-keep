@@ -1,18 +1,32 @@
 package com.bridgelabz.fundookeep.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class RegistrationDTO {
 
-	@NotNull(message = "Enter FName")
+	@NotNull(message = "Frist Name field can't be empty!!!")
+	@Pattern(regexp = "^[a-zA-Z]*",message = "Digits and Special characters are not allowed Frist Name field")
+	@Size(min = 3)
 	private String firstName;
-	@NotNull(message = "Enter LName")
+	
+	@NotNull(message = "Last Name field can't be empty!!!")
+	@Pattern(regexp = "^[a-zA-Z]+$",message = "Digits and Special characters are not allowed Last Name field")
 	private String lastName;
-	@NotNull(message = "Enter Email")
+	
+	@NotNull(message = "Email address field can't be empty!!!")
+	@Email(message = "Enter valid mail address!!!")
 	private String emailAddress;
-	@NotNull(message = "Enter mobile")
+	
+	
+	@NotNull(message = "Moblie number field can't be empty!!!")
+	//@Size(min = 10, max = 10, message = "Mobile number length should be 10 digits")
+	//@Pattern(regexp = "^[7896][0-9]{9}",message = "Mobile number length should be 10 digits")
 	private Long mobile;
-	@NotNull(message = "Enter pass")
+	
+	@NotNull(message = "Password field can't be empty!!!")
 	private String password;
 
 	public RegistrationDTO() {

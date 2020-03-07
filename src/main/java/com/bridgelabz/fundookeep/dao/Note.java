@@ -16,7 +16,7 @@ public class Note {
 	@GenericGenerator(name = "nId", strategy = "increment")
 	@GeneratedValue(generator = "nId")
 	@Column(name = "NoteId", nullable = false)
-	private Long id;
+	private Long noteId;
 
 	@Column(name = "Title")
 	private String title;
@@ -39,12 +39,12 @@ public class Note {
 	@Column(name = "isTrash", columnDefinition = "bit(1) default 0")
 	private boolean isTrash;
 
-	public Long getId() {
-		return id;
+	public Long getNoteId() {
+		return noteId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setNoteId(Long noteId) {
+		this.noteId = noteId;
 	}
 
 	public String getTitle() {
