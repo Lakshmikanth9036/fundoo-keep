@@ -9,6 +9,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.bridgelabz.fundookeep.dto.NoteDTO;
+
 @Entity
 public class Note {
 
@@ -21,8 +23,8 @@ public class Note {
 	@Column(name = "Title")
 	private String title;
 
-	@Column(name = "TakeANote")
-	private String takeANote;
+	@Column(name = "Description")
+	private String description;
 
 	@Column(name = "NoteCreatedTime")
 	private LocalDateTime noteCreated;
@@ -38,6 +40,26 @@ public class Note {
 
 	@Column(name = "isTrash", columnDefinition = "bit(1) default 0")
 	private boolean isTrash;
+
+	@Column(name = "Color", columnDefinition = "varchar(10) default 'White'")
+	private String color;
+
+	public Note() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Note(NoteDTO noteDTO) {
+		this.title = noteDTO.getTitle();
+		this.description = noteDTO.getDescription();
+		this.noteCreated = LocalDateTime.now();
+		this.noteUpdated = LocalDateTime.now();
+		this.isArchived = false;
+		this.isPin = false;
+		this.isTrash = false;
+		this.color = "WHITE";
+	}
+
+
 
 	public Long getNoteId() {
 		return noteId;
@@ -55,12 +77,20 @@ public class Note {
 		this.title = title;
 	}
 
-	public String getTakeANote() {
-		return takeANote;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setTakeANote(String takeANote) {
-		this.takeANote = takeANote;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public LocalDateTime getNoteCreated() {

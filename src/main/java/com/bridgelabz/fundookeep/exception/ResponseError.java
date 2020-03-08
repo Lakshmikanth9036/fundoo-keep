@@ -1,7 +1,5 @@
 package com.bridgelabz.fundookeep.exception;
 
-import java.time.LocalDateTime;
-
 public class ResponseError {
 
 	private int status;

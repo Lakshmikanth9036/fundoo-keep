@@ -16,6 +16,7 @@ public class JwtUtils {
 	}
 	
 	public Long decodeToken(String jwt) {
+		
 		Claims claim = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(jwt).getBody();
 		return Long.parseLong(claim.getSubject());
 	}

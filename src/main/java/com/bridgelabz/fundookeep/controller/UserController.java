@@ -5,7 +5,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 import com.bridgelabz.fundookeep.dto.Response;
-import com.bridgelabz.fundookeep.exception.BadRequestError;
+import com.bridgelabz.fundookeep.dto.UserResponse;
 import com.bridgelabz.fundookeep.service.UserService;
 
 @RestController
@@ -53,8 +51,9 @@ public class UserController {
 
 	@GetMapping("/login")
 	private ResponseEntity<Response> userLoginWithEmail(@RequestBody LoginDTO login) {
-		if(service.loginByEmailOrMobile(login))
-			return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("202")));
+		UserResponse userResponse = service.loginByEmailOrMobile(login);
+		if(userResponse != null)
+			return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("202"), userResponse));
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response(HttpStatus.NOT_FOUND.value(), env.getProperty("404")));
 	}
 

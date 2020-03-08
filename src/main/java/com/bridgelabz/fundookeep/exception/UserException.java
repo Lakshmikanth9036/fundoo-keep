@@ -2,6 +2,8 @@ package com.bridgelabz.fundookeep.exception;
 
 public class UserException extends RuntimeException{
 
+	private static final long serialVersionUID = 5460492644658485956L;
+	
 	private int errorCode;
 	private String errorMsg;
 	
