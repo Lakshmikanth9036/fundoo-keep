@@ -56,7 +56,7 @@ public class Note {
 		this.isArchived = false;
 		this.isPin = false;
 		this.isTrash = false;
-		this.color = "WHITE";
+		this.color = noteDTO.getColor();
 	}
 
 

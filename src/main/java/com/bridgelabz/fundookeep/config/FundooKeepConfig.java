@@ -26,10 +26,5 @@ public class FundooKeepConfig {
 	public MailService getMailService() {
 		return new MailService();
 	}
-	
-	@Bean
-	public JwtUtils getJwtUtils() {
-		return new JwtUtils();
-	}
 }
 

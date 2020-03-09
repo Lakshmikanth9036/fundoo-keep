@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 import com.bridgelabz.fundookeep.dto.Response;
-import com.bridgelabz.fundookeep.dto.UserResponse;
+import com.bridgelabz.fundookeep.dto.LoginResponse;
 import com.bridgelabz.fundookeep.service.UserService;
 
 @RestController
@@ -50,11 +50,9 @@ public class UserController {
 	}
 
 	@GetMapping("/login")
-	private ResponseEntity<Response> userLoginWithEmail(@RequestBody LoginDTO login) {
-		UserResponse userResponse = service.loginByEmailOrMobile(login);
-		if(userResponse != null)
-			return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("202"), userResponse));
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response(HttpStatus.NOT_FOUND.value(), env.getProperty("404")));
+	private ResponseEntity<LoginResponse> userLoginWithEmail(@RequestBody LoginDTO login) {
+		LoginResponse userResponse = service.loginByEmailOrMobile(login);
+		return ResponseEntity.ok().body(userResponse);
 	}
 
 	@PostMapping("/login/forgotpassword")

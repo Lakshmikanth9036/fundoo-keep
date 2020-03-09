@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
-import com.bridgelabz.fundookeep.dto.UserResponse;
+import com.bridgelabz.fundookeep.dto.LoginResponse;
 import com.bridgelabz.fundookeep.exception.UserException;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
@@ -32,9 +32,6 @@ public class UserServiceProvider implements UserService {
 	private PasswordEncoder encoder;
 
 	@Autowired
-	private JwtUtils jwts;
-
-	@Autowired
 	private Environment env;
 	
 	/**
@@ -51,7 +48,7 @@ public class UserServiceProvider implements UserService {
 		try {
 			User usr = repository.save(user);
 			if (usr != null) {
-				mailService.sendMail(user, jwts.generateToken(user.getUserId()));
+				mailService.sendMail(user, JwtUtils.generateToken(user.getUserId()));
 			}
 		} catch (UserException e) {
 			throw new UserException(400,env.getProperty("102"));
@@ -64,7 +61,7 @@ public class UserServiceProvider implements UserService {
 	 */
 	@Override
 	public  int updateVerificationStatus(String token) {
-		Long id = jwts.decodeToken(token);
+		Long id = JwtUtils.decodeToken(token);
 		try {
 			return repository.updateUserVerificationStatus(id,LocalDateTime.now());
 		} catch (UserException e) {
@@ -77,13 +74,15 @@ public class UserServiceProvider implements UserService {
 	 * @return user details which is necessary
 	 */
 	@Override
-	public UserResponse loginByEmailOrMobile(LoginDTO login) {
+	public LoginResponse loginByEmailOrMobile(LoginDTO login) {
 
 		User user = repository.findByEmailAddressOrMobile(login.getEmailAddress(), login.getMobile())
 				.orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		if (user.isUserVerified()) {
 			if (encoder.matches(login.getPassword(), user.getPassword())) {
-				return new UserResponse(user);
+				user.setPassword(null);
+				user.setNotes(null);
+				return new LoginResponse(HttpStatus.OK.value(), env.getProperty("202"), user, JwtUtils.generateUserToken(user.getUserId()));
 			}
 			throw new UserException(401,env.getProperty("401"));
 		}
@@ -98,7 +97,7 @@ public class UserServiceProvider implements UserService {
 
 		User user = repository.findByEmailAddress(emailAddress)
 				.orElseThrow(() -> new UserException(404,env.getProperty("104")));
-		String token = jwts.generateToken(user.getUserId());
+		String token = JwtUtils.generateToken(user.getUserId());
 		mailService.sendTokenToMail(token, emailAddress);
 
 	}
@@ -108,7 +107,7 @@ public class UserServiceProvider implements UserService {
 	 */
 	@Override
 	public int resetPassword(String token, String newPassword) {
-		Long id = jwts.decodeToken(token);
+		Long id = JwtUtils.decodeToken(token);
 			return repository.updatePassword(id, encoder.encode(newPassword), LocalDateTime.now());
 	}
 
