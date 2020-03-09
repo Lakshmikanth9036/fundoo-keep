@@ -21,7 +21,6 @@ import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.service.NoteService;
-import com.bridgelabz.fundookeep.utils.JwtUtils;
 
 @RestController
 @RequestMapping("/note")
@@ -34,27 +33,45 @@ public class NoteController {
 	@Autowired
 	private Environment env;
 
-	@PostMapping(value = "/createNote")
-	private ResponseEntity<Response> createNote(@RequestBody NoteDTO noteDTO,@RequestHeader String token){
+	@PostMapping(value = "/create")
+	private ResponseEntity<Response> createNote(@RequestBody NoteDTO noteDTO,@RequestHeader(name = "header") String token){
 		
 		nService.createNote(noteDTO, token);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("204")));
 	}
 	
-	@PutMapping("/updateNote/{nId}")
-	private ResponseEntity<Response> updateNote(@RequestBody NoteDTO noteDTO,@RequestHeader String token,@PathVariable("nId") Long nId){
+	@PutMapping("/update/{nId}")
+	private ResponseEntity<Response> updateNote(@RequestBody NoteDTO noteDTO,@RequestHeader(name = "header") String token,@PathVariable("nId") Long nId){
 		nService.updateNote(noteDTO, token, nId);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("205")));
 	}
 	
-	@DeleteMapping("/deleteNote/{nId}")
-	private ResponseEntity<Response> deleteNote(@RequestHeader String token,@PathVariable("nId") Long nId){
+	@PutMapping("/pin/{nId}")
+	private ResponseEntity<Response> pin(@RequestHeader(name = "header") String token,@PathVariable("nId") Long nId){
+		nService.pinNote(token, nId);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("207")));
+	}
+	
+	@PutMapping("/archive/{nId}")
+	private ResponseEntity<Response> archive(@RequestHeader(name = "header") String token,@PathVariable("nId") Long nId){
+		nService.moveNoteToArchive(token, nId);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("208")));
+	}
+	
+	@PutMapping("/trash/{nId}")
+	private ResponseEntity<Response> trash(@RequestHeader(name = "header") String token,@PathVariable("nId") Long nId){
+		nService.moveNoteToTrash(token, nId);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("208")));
+	}
+	
+	@DeleteMapping("/delete/{nId}")
+	private ResponseEntity<Response> deleteNote(@RequestHeader(name = "header") String token,@PathVariable("nId") Long nId){
 		nService.deleteNote(token, nId);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("206")));
 	}
 	
 	@GetMapping("/getallNotes")
-	private ResponseEntity<Response> getAllNotes(@RequestHeader String token){
+	private ResponseEntity<Response> getAllNotes(@RequestHeader(name = "header") String token){
 		List<Note> notes = nService.getAllNotes(token);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
 	}

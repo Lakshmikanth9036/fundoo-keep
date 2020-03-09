@@ -11,5 +11,8 @@ public interface NoteService {
 	public void updateNote(NoteDTO noteDTO,String token, Long noteId) ;
 	public void deleteNote(String token, Long noteId);
 	public List<Note> getAllNotes(String token);
+	public void moveNoteToTrash(String token, Long noteId);
+	public void moveNoteToArchive(String token, Long noteId);
+	public void pinNote(String token, Long noteId);
 	
 }

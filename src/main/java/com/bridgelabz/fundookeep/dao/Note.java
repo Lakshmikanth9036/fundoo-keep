@@ -45,7 +45,6 @@ public class Note {
 	private String color;
 
 	public Note() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Note(NoteDTO noteDTO) {
