@@ -14,5 +14,7 @@ public interface NoteService {
 	public void moveNoteToTrash(String token, Long noteId);
 	public void moveNoteToArchive(String token, Long noteId);
 	public void pinNote(String token, Long noteId);
+	public List<Note> sortByTitle(String token);
+	public List<Note> sortByDateAndTime(String token);
 	
 }

@@ -75,4 +75,16 @@ public class NoteController {
 		List<Note> notes = nService.getAllNotes(token);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
 	}
+	
+	@GetMapping("/sortByTitle")
+	private ResponseEntity<Response> getAllNotesSortedByName(@RequestHeader(name = "header") String token){
+		List<Note> notes = nService.sortByTitle(token);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
+	}
+	
+	@GetMapping("/sortByCreatedTime")
+	private ResponseEntity<Response> getAllNotesSortedByTime(@RequestHeader(name = "header") String token){
+		List<Note> notes = nService.sortByDateAndTime(token);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
+	}
 }

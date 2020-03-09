@@ -1,11 +1,13 @@
 package com.bridgelabz.fundookeep.dao;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -17,7 +19,7 @@ public class Note {
 	@Id
 	@GenericGenerator(name = "nId", strategy = "increment")
 	@GeneratedValue(generator = "nId")
-	@Column(name = "NoteId", nullable = false)
+	@Column(name = "NoteId")
 	private Long noteId;
 
 	@Column(name = "Title")
@@ -43,6 +45,8 @@ public class Note {
 
 	@Column(name = "Color", columnDefinition = "varchar(10) default 'White'")
 	private String color;
+	
+
 
 	public Note() {
 	}
@@ -57,8 +61,6 @@ public class Note {
 		this.isTrash = false;
 		this.color = noteDTO.getColor();
 	}
-
-
 
 	public Long getNoteId() {
 		return noteId;
@@ -132,4 +134,20 @@ public class Note {
 		this.isTrash = isTrash;
 	}
 
+	@Override
+	public String toString() {
+		return "Note [noteId=" + noteId + ", title=" + title + ", description=" + description + ", noteCreated="
+				+ noteCreated + ", noteUpdated=" + noteUpdated + ", isArchived=" + isArchived + ", isPin=" + isPin
+				+ ", isTrash=" + isTrash + ", color=" + color + "]";
+	}
+
+//	public List<Label> getLabels() {
+//		return labels;
+//	}
+//
+//	public void setLabels(List<Label> labels) {
+//		this.labels = labels;
+//	}
+
+	
 }

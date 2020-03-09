@@ -1,6 +1,10 @@
 package com.bridgelabz.fundookeep.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,6 +61,7 @@ public class NoteServiceProvider implements NoteService{
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		notes.remove(filteredNote); 
+		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 	}
 	
@@ -67,6 +72,7 @@ public class NoteServiceProvider implements NoteService{
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		filteredNote.setTrash(!filteredNote.isPin()); 
+		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 	}
 	
@@ -76,7 +82,8 @@ public class NoteServiceProvider implements NoteService{
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
-		filteredNote.setArchived(!filteredNote.isArchived()); 
+		filteredNote.setArchived(!filteredNote.isArchived());
+		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 	}
 	
@@ -87,6 +94,7 @@ public class NoteServiceProvider implements NoteService{
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		filteredNote.setPin(!filteredNote.isPin()); 
+		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 	}
 	
@@ -99,6 +107,35 @@ public class NoteServiceProvider implements NoteService{
 		return filteredNotes;
 	}
 	
+	public List<Note> sortByTitle(String token){
+		
+		List<Note> notes = getAllNotes(token);
+		
+//		Arrays.parallelSort(notes, (n1,n2) -> {
+//			return n1.getTitle().compareTo(n2.getTitle());
+//		});
+		Collections.sort(notes, (n1,n2) -> 
+		{
+			return n1.getTitle().compareTo(n2.getTitle());
+		});
+		return notes;
+	}
+	
+	public List<Note> sortByDateAndTime(String token){
+		List<Note> notes = getAllNotes(token);
+		Collections.sort(notes, (n1,n2) -> 
+		{
+			return n1.getNoteCreated().compareTo(n2.getNoteCreated());
+		});
+		return notes;
+	}
+	
+	public void createLable(String token,Long nId) {
+		Long uId = JwtUtils.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		List<Note> notes = user.getNotes();
+		
+	}
 	
 	
 }
