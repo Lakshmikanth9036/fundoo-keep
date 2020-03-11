@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
@@ -53,6 +54,10 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "UserId")
 	private List<Note> notes;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "UserId")
+	private List<Label> labels;
 
 	public User() {	}
 
@@ -154,5 +159,15 @@ public class User {
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
+
+	public List<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(List<Label> labels) {
+		this.labels = labels;
+	}
+	
+	
 
 }

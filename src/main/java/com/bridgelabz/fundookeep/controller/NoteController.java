@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundookeep.dao.Note;
+import com.bridgelabz.fundookeep.dto.LabelDTO;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.service.NoteService;
@@ -86,5 +87,10 @@ public class NoteController {
 	private ResponseEntity<Response> getAllNotesSortedByTime(@RequestHeader(name = "header") String token){
 		List<Note> notes = nService.sortByDateAndTime(token);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
+	}
+	
+	@PutMapping("/label/add")
+	private ResponseEntity<Response> createLabel(@RequestBody LabelDTO labelDTO, @RequestHeader(name = "header") String token,@PathVariable Long noteId){
+		return ResponseEntity.ok().body(nService.addOrCreateLable(token, noteId, labelDTO));
 	}
 }

@@ -10,33 +10,30 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.bridgelabz.fundookeep.dto.LabelDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Label {
 
 	@Id
 	@GenericGenerator(name = "lId", strategy = "increment")
 	@GeneratedValue(generator = "lId")
-	@Column(name = "NoteId")
+	@Column(name = "LabelId")
 	private Long labelId;
 	
-	@Column(name = "Label Name")
+	@Column(name = "LabelName", unique = true)
 	private String labelName;
 	
-	@Column(name = "UserId")
-	private Long userId;
-	
+	@JsonIgnore
 	@ManyToMany
 	private List<Note> notes;
 	
 	public Label() {
 	}
 
-	public Label(Long labelId, String labelName, Long userId, List<Note> notes) {
-		super();
-		this.labelId = labelId;
-		this.labelName = labelName;
-		this.userId = userId;
-		this.notes = notes;
+	public Label(LabelDTO labelDTO) {
+		this.labelName = labelDTO.getLabelName();
 	}
 
 	public Long getLabelId() {
@@ -53,14 +50,6 @@ public class Label {
 
 	public void setLabelName(String labelName) {
 		this.labelName = labelName;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	public List<Note> getNotes() {

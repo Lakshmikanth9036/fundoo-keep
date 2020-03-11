@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.bridgelabz.fundookeep.dto.NoteDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Note {
@@ -46,7 +47,9 @@ public class Note {
 	@Column(name = "Color", columnDefinition = "varchar(10) default 'White'")
 	private String color;
 	
-
+	@ManyToMany(mappedBy = "notes")
+	private List<Label> labels;
+	
 
 	public Note() {
 	}
@@ -141,13 +144,13 @@ public class Note {
 				+ ", isTrash=" + isTrash + ", color=" + color + "]";
 	}
 
-//	public List<Label> getLabels() {
-//		return labels;
-//	}
-//
-//	public void setLabels(List<Label> labels) {
-//		this.labels = labels;
-//	}
+	public List<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(List<Label> labels) {
+		this.labels = labels;
+	}
 
 	
 }
