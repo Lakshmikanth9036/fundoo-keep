@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundookeep.dao.Label;
+import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LabelDTO;
 import com.bridgelabz.fundookeep.dto.Response;
@@ -75,5 +76,11 @@ public class LabelServiceProvider implements LabelService{
 		return labels;
 	}
 	
+	public List<Note> getNoteByLabel(String token, Long lid){
+		Long uId = JwtUtils.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		Label lbl = user.getLabels().stream().filter(label -> label.getLabelId().equals(lid)).findFirst().orElseThrow(() -> new LabelException(404,"Label not exist!!!!"));
+		return lbl.getNotes();
+	}
 	
 }

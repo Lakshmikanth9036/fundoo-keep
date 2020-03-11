@@ -89,8 +89,13 @@ public class NoteController {
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
 	}
 	
-	@PutMapping("/label/add")
-	private ResponseEntity<Response> createLabel(@RequestBody LabelDTO labelDTO, @RequestHeader(name = "header") String token,@PathVariable Long noteId){
-		return ResponseEntity.ok().body(nService.addOrCreateLable(token, noteId, labelDTO));
+	@PutMapping("/add/label")
+	private ResponseEntity<Response> createLabel(@RequestBody LabelDTO labelDTO, @RequestHeader(name = "header") String token, Long nId){
+		return ResponseEntity.ok().body(nService.addOrCreateLable(token, nId, labelDTO));
+	}
+	
+	@DeleteMapping("/remove/label")
+	private ResponseEntity<Response> createLabel( @RequestHeader(name = "header") String token, Long noteId, Long labelId){
+		return ResponseEntity.ok().body(nService.removeLabel(token, noteId, labelId));
 	}
 }

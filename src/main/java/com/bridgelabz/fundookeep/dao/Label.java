@@ -1,5 +1,6 @@
 package com.bridgelabz.fundookeep.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ public class Label {
 	private String labelName;
 	
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(mappedBy = "labels")
 	private List<Note> notes;
 	
 	public Label() {
@@ -34,6 +35,7 @@ public class Label {
 
 	public Label(LabelDTO labelDTO) {
 		this.labelName = labelDTO.getLabelName();
+		notes = new ArrayList<>();
 	}
 
 	public Long getLabelId() {
@@ -59,5 +61,7 @@ public class Label {
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
+	
+	
 	
 }

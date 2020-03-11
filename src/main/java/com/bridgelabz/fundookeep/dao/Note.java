@@ -3,6 +3,7 @@ package com.bridgelabz.fundookeep.dao;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class Note {
 	@Column(name = "Color", columnDefinition = "varchar(10) default 'White'")
 	private String color;
 	
-	@ManyToMany(mappedBy = "notes")
+	@ManyToMany(cascade = CascadeType.REMOVE)
 	private List<Label> labels;
 	
 

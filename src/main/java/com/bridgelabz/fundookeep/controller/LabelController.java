@@ -42,8 +42,13 @@ public class LabelController {
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), "Successfully deleted"));
 	}
 	
-	@GetMapping(value = "/getAlllabel")
+	@GetMapping(value = "/getAllLabel")
 	private ResponseEntity<Response> getAllLabel(@RequestHeader(name = "header") String token){
 		return ResponseEntity.ok().body(new Response(HttpStatus.FOUND.value(), "Found all labels", lService.getAllLables(token)));
+	}
+	
+	@GetMapping(value = "/getNotesOfLable")
+	private ResponseEntity<Response> getNotesOfLable(@RequestHeader(name = "header") String token, Long lid){
+		return ResponseEntity.ok().body(new Response(HttpStatus.FOUND.value(), "Found all labels", lService.getNoteByLabel(token, lid)));
 	}
 }

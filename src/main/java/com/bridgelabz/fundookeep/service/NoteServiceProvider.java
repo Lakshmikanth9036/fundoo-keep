@@ -21,6 +21,7 @@ import com.bridgelabz.fundookeep.dto.NoteDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.exception.NoteException;
 import com.bridgelabz.fundookeep.exception.UserException;
+import com.bridgelabz.fundookeep.repository.LabelRepository;
 import com.bridgelabz.fundookeep.repository.NoteRepository;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
@@ -34,6 +35,9 @@ public class NoteServiceProvider implements NoteService{
 	
 	@Autowired
 	private NoteRepository noteRepository;
+	
+	@Autowired
+	private LabelRepository labelRepository;
 	
 	@Autowired
 	private Environment env;
@@ -181,10 +185,19 @@ public class NoteServiceProvider implements NoteService{
 		return new Response(HttpStatus.ALREADY_REPORTED.value(), "this label already exist",labelDTO);
 	}
 	
-	public void removeLabel(String token,Long noteId,Long labelId) {
+	@Transactional
+	public Response removeLabel(String token,Long noteId,Long labelId) {
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		Note filteredNote = user.getNotes().stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404, "Not doesnt exist"));
-		boolean exist = filteredNote.getLabels().stream().noneMatch(lbl -> lbl.getLabelId().equals(labelId));
+		List<Label> labels = filteredNote.getLabels();
+		Label label = filteredNote.getLabels().stream().filter(lbl -> lbl.getLabelId().equals(labelId)).findFirst().orElse(null);
+		if(label != null) {
+			labels.remove(label);
+			noteRepository.save(filteredNote);
+			repository.save(user);
+			return new Response(HttpStatus.OK.value(), "Successfully removed the label");
+		}
+		return new Response(HttpStatus.NOT_FOUND.value(), "Label not present");
 	}
 }
