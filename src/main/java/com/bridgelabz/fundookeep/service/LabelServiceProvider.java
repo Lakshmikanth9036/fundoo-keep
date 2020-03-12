@@ -43,9 +43,9 @@ public class LabelServiceProvider implements LabelService{
 		if(exist) {
 			user.getLabels().add(label);
 			repository.save(user);
-			return new Response(HttpStatus.OK.value(), "label created successfully",labelDTO);
+			return new Response(HttpStatus.OK.value(), env.getProperty("212"),labelDTO);
 		}
-		return new Response(HttpStatus.ALREADY_REPORTED.value(), "this label already exist",labelDTO);
+		return new Response(HttpStatus.ALREADY_REPORTED.value(),env.getProperty("108") ,labelDTO);
 	}
 	 
 	@Transactional
@@ -53,7 +53,7 @@ public class LabelServiceProvider implements LabelService{
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Label> labels = user.getLabels();
-		Label filteredLabel = labels.stream().filter(lbl -> lbl.getLabelId().equals(lId)).findFirst().orElseThrow(() -> new LabelException(404,"Label not exist!!!!"));
+		Label filteredLabel = labels.stream().filter(lbl -> lbl.getLabelId().equals(lId)).findFirst().orElseThrow(() -> new LabelException(404,env.getProperty("109")));
 		filteredLabel.setLabelName(labelDTO.getLabelName());
 		repository.save(user);
 	}
@@ -63,7 +63,7 @@ public class LabelServiceProvider implements LabelService{
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Label> labels = user.getLabels();
-		Label filteredLabel = labels.stream().filter(lbl -> lbl.getLabelId().equals(lId)).findFirst().orElseThrow(() -> new LabelException(404,"Label not exist!!!!"));
+		Label filteredLabel = labels.stream().filter(lbl -> lbl.getLabelId().equals(lId)).findFirst().orElseThrow(() -> new LabelException(404,env.getProperty("109")));
 		labels.remove(filteredLabel);
 		labelRepository.deleteById(filteredLabel.getLabelId());
 		repository.save(user);
@@ -79,7 +79,7 @@ public class LabelServiceProvider implements LabelService{
 	public List<Note> getNoteByLabel(String token, Long lid){
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
-		Label lbl = user.getLabels().stream().filter(label -> label.getLabelId().equals(lid)).findFirst().orElseThrow(() -> new LabelException(404,"Label not exist!!!!"));
+		Label lbl = user.getLabels().stream().filter(label -> label.getLabelId().equals(lid)).findFirst().orElseThrow(() -> new LabelException(404,env.getProperty("109")));
 		return lbl.getNotes();
 	}
 	

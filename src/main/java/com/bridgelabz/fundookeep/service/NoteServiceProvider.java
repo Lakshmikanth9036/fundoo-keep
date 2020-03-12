@@ -37,9 +37,6 @@ public class NoteServiceProvider implements NoteService{
 	private NoteRepository noteRepository;
 	
 	@Autowired
-	private LabelRepository labelRepository;
-	
-	@Autowired
 	private Environment env;
 	
 	/**
@@ -62,7 +59,7 @@ public class NoteServiceProvider implements NoteService{
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
-		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
 		filteredNote.setTitle(noteDTO.getTitle());
 		filteredNote.setDescription(noteDTO.getDescription());
 		filteredNote.setColor(noteDTO.getColor());
@@ -78,7 +75,7 @@ public class NoteServiceProvider implements NoteService{
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
-		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
 		notes.remove(filteredNote);
 		noteRepository.delete(filteredNote);
 		repository.save(user);
@@ -92,7 +89,7 @@ public class NoteServiceProvider implements NoteService{
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
-		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
 		filteredNote.setTrash(!filteredNote.isPin()); 
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
@@ -106,7 +103,7 @@ public class NoteServiceProvider implements NoteService{
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
-		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
 		filteredNote.setArchived(!filteredNote.isArchived());
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
@@ -120,7 +117,7 @@ public class NoteServiceProvider implements NoteService{
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
-		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
 		filteredNote.setPin(!filteredNote.isPin()); 
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
@@ -138,7 +135,9 @@ public class NoteServiceProvider implements NoteService{
 		return filteredNotes;
 	}
 	
-	
+	/**
+	 * Get all notes sorted by title
+	 */
 	public List<Note> sortByTitle(String token){
 		
 		List<Note> notes = getAllNotes(token);
@@ -150,6 +149,9 @@ public class NoteServiceProvider implements NoteService{
 		return notes;
 	}
 	
+	/**
+	 * Get all notes sorted by created time
+	 */
 	public List<Note> sortByDateAndTime(String token){
 		List<Note> notes = getAllNotes(token);
 		Collections.sort(notes, (n1,n2) -> 
@@ -159,45 +161,54 @@ public class NoteServiceProvider implements NoteService{
 		return notes;
 	}
 	
+	/**
+	 * Add or create a label for the note
+	 */
 	public Response addOrCreateLable(String token,Long noteId,LabelDTO labelDTO) {
 		Long uId = JwtUtils.decodeToken(token);
 		Label lb = new Label(labelDTO);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
-		Note filteredNote = user.getNotes().stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404, "Not doesnt exist"));
+		Note filteredNote = user.getNotes().stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404, "105"));
 		boolean exist = filteredNote.getLabels().stream().noneMatch(lbl -> lbl.getLabelName().equalsIgnoreCase(labelDTO.getLabelName()));
 		if(exist) {
 			boolean exst = user.getLabels().stream().noneMatch(lbl -> lbl.getLabelName().equalsIgnoreCase(labelDTO.getLabelName()));
 			if(exst) {
 				user.getLabels().add(lb);
 				filteredNote.getLabels().add(lb);
+				filteredNote.setNoteUpdated(LocalDateTime.now());
 				lb.getNotes().add(filteredNote);
 				repository.save(user);
-				return new Response(HttpStatus.OK.value(), "label created successfully",labelDTO);
+				return new Response(HttpStatus.OK.value(), "209",labelDTO);
 			}
 			else {
 				Label l = user.getLabels().stream().filter(lbl -> lbl.getLabelName().equalsIgnoreCase(labelDTO.getLabelName())).findFirst().orElseThrow(() -> new NoteException(404, "Label Doesnt exists"));
 				filteredNote.getLabels().add(l);
+				filteredNote.setNoteUpdated(LocalDateTime.now());
 				l.getNotes().add(filteredNote);
 				repository.save(user);
-				return new Response(HttpStatus.OK.value(), "label added successfully",labelDTO);
+				return new Response(HttpStatus.OK.value(), "210",labelDTO);
 			}
 		}
-		return new Response(HttpStatus.ALREADY_REPORTED.value(), "this label already exist",labelDTO);
+		return new Response(HttpStatus.ALREADY_REPORTED.value(), "106",labelDTO);
 	}
 	
+	/**
+	 * Remove the perticular label from the note
+	 */
 	@Transactional
 	public Response removeLabel(String token,Long noteId,Long labelId) {
 		Long uId = JwtUtils.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
-		Note filteredNote = user.getNotes().stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404, "Not doesnt exist"));
+		Note filteredNote = user.getNotes().stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404, "105"));
 		List<Label> labels = filteredNote.getLabels();
 		Label label = filteredNote.getLabels().stream().filter(lbl -> lbl.getLabelId().equals(labelId)).findFirst().orElse(null);
 		if(label != null) {
 			labels.remove(label);
+			filteredNote.setNoteUpdated(LocalDateTime.now());
 			noteRepository.save(filteredNote);
 			repository.save(user);
-			return new Response(HttpStatus.OK.value(), "Successfully removed the label");
+			return new Response(HttpStatus.OK.value(), "211");
 		}
-		return new Response(HttpStatus.NOT_FOUND.value(), "Label not present");
+		return new Response(HttpStatus.NOT_FOUND.value(), "107");
 	}
 }
