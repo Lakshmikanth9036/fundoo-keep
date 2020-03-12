@@ -9,10 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.fundookeep.config.Consumer;
+import com.bridgelabz.fundookeep.config.Producer;
+import com.bridgelabz.fundookeep.constants.Constants;
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 import com.bridgelabz.fundookeep.dto.LoginResponse;
+import com.bridgelabz.fundookeep.dto.Mail;
 import com.bridgelabz.fundookeep.exception.UserException;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
@@ -26,10 +30,13 @@ public class UserServiceProvider implements UserService {
 	private UserRepository repository;
 
 	@Autowired
-	private MailService mailService;
-
-	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private Producer producer;
+	
+	@Autowired
+	private Consumer consumer;
 
 	@Autowired
 	private Environment env;
@@ -45,10 +52,16 @@ public class UserServiceProvider implements UserService {
 		
 		register.setPassword(encoder.encode(register.getPassword()));
 		User user = new User(register);
+		Mail mail = new Mail();
 		try {
 			User usr = repository.save(user);
 			if (usr != null) {
-				mailService.sendMail(user, JwtUtils.generateToken(user.getUserId()));
+				mail.setTo(user.getEmailAddress());
+				mail.setSubject(Constants.REGISTRATION_STATUS);
+				mail.setContext("Hi " + user.getFirstName() + " "+user.getLastName()+ Constants.REGISTRATION_MESSAGE + Constants.VERIFICATION_LINK
+				+ JwtUtils.generateToken(user.getUserId()));
+				producer.sendToQueue(mail);
+				consumer.receiveMail(mail);
 			}
 		} catch (UserException e) {
 			throw new UserException(400,env.getProperty("102"));
@@ -97,9 +110,12 @@ public class UserServiceProvider implements UserService {
 
 		User user = repository.findByEmailAddress(emailAddress)
 				.orElseThrow(() -> new UserException(404,env.getProperty("104")));
-		String token = JwtUtils.generateToken(user.getUserId());
-		mailService.sendTokenToMail(token, emailAddress);
-
+		Mail mail = new Mail();
+		mail.setTo(emailAddress);
+		mail.setSubject(Constants.RESET_MSG);
+		mail.setContext(Constants.VERIFICATION_LINK+JwtUtils.generateToken(user.getUserId()));
+		producer.sendToQueue(mail);
+		consumer.receiveMail(mail);
 	}
 
 	/**

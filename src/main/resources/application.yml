@@ -8,6 +8,9 @@ spring:
   mail:
     username: ${mailId}
     password: ${mailPassword}
+  rabbitmq:    username: guest
+    password: guest
+  
     
 ---
 spring:
