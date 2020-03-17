@@ -5,8 +5,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.bridgelabz.fundookeep.constants.Constants;
-import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.Mail;
 
 @Service

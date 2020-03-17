@@ -24,6 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByEmailAddressOrMobile(String email,Long mobile);
 
 	Optional<User> findByEmailAddress(String emailAddress);
+	
+	Optional<User> findByMobile(Long mobile);
 
 	@Modifying
 	@Transactional

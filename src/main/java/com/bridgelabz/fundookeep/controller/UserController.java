@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.bridgelabz.fundookeep.service.UserService;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 @PropertySource("classpath:message.properties")
 public class UserController {
 
@@ -49,10 +51,11 @@ public class UserController {
 		return ResponseEntity.badRequest().body(new Response(HttpStatus.BAD_REQUEST.value(), env.getProperty("102")));
 	}
 
-	@GetMapping("/login")
+	@PutMapping("/login")
 	private ResponseEntity<LoginResponse> userLoginWithEmail(@RequestBody LoginDTO login) {
 		LoginResponse userResponse = service.loginByEmailOrMobile(login);
-		return ResponseEntity.ok().body(userResponse);
+			return ResponseEntity.ok().body(userResponse);
+		
 	}
 
 	@PostMapping("/login/forgotpassword")
