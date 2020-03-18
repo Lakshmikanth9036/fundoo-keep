@@ -53,19 +53,20 @@ public class UserController {
 
 	@PutMapping("/login")
 	private ResponseEntity<LoginResponse> userLoginWithEmail(@RequestBody LoginDTO login) {
+		System.out.println(login.getMailOrMobile());
 		LoginResponse userResponse = service.loginByEmailOrMobile(login);
 			return ResponseEntity.ok().body(userResponse);
 		
 	}
 
-	@PostMapping("/login/forgotpassword")
+	@PostMapping("/forgotpassword")
 	private ResponseEntity<Response> userLoginForgotpassword(@RequestParam String emailAddress) {
 		service.sendTokentoMail(emailAddress);
 		return ResponseEntity.status(HttpStatus.GONE)
 				.body(new Response(HttpStatus.GONE.value(), env.getProperty("403")));
 	}
 
-	@PutMapping("/login/forgotpassword/{token}")
+	@PutMapping("/forgotpassword/{token}")
 	private ResponseEntity<Response> userLoginForgotpasswordVerify(@PathVariable String token,
 			@RequestParam String newPassword) {
 		if(service.resetPassword(token, newPassword)>0)
