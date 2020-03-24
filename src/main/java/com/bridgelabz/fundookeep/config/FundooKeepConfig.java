@@ -8,6 +8,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -47,6 +49,18 @@ public class FundooKeepConfig {
 	@Bean
 	public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
 		return new Jackson2JsonMessageConverter();
+	}
+	
+	@Bean
+	public JedisConnectionFactory jedisConnectionFactory() {
+		return new JedisConnectionFactory();
+	}
+	
+	@Bean
+	public RedisTemplate<String, Long> redisTemplet() {
+		RedisTemplate<String, Long> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(jedisConnectionFactory());
+		return redisTemplate;
 	}
 	
 }

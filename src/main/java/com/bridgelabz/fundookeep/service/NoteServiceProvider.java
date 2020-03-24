@@ -178,7 +178,7 @@ public class NoteServiceProvider implements NoteService{
 				filteredNote.setNoteUpdated(LocalDateTime.now());
 				lb.getNotes().add(filteredNote);
 				repository.save(user);
-				return new Response(HttpStatus.OK.value(), "209",labelDTO);
+				return new Response(HttpStatus.OK.value(), env.getProperty("209"),labelDTO);
 			}
 			else {
 				Label l = user.getLabels().stream().filter(lbl -> lbl.getLabelName().equalsIgnoreCase(labelDTO.getLabelName())).findFirst().orElseThrow(() -> new NoteException(404, "Label Doesnt exists"));
@@ -186,10 +186,10 @@ public class NoteServiceProvider implements NoteService{
 				filteredNote.setNoteUpdated(LocalDateTime.now());
 				l.getNotes().add(filteredNote);
 				repository.save(user);
-				return new Response(HttpStatus.OK.value(), "210",labelDTO);
+				return new Response(HttpStatus.OK.value(), env.getProperty("210"),labelDTO);
 			}
 		}
-		return new Response(HttpStatus.ALREADY_REPORTED.value(), "106",labelDTO);
+		return new Response(HttpStatus.ALREADY_REPORTED.value(), env.getProperty("106"),labelDTO);
 	}
 	
 	/**
@@ -207,8 +207,8 @@ public class NoteServiceProvider implements NoteService{
 			filteredNote.setNoteUpdated(LocalDateTime.now());
 			noteRepository.save(filteredNote);
 			repository.save(user);
-			return new Response(HttpStatus.OK.value(), "211");
+			return new Response(HttpStatus.OK.value(), env.getProperty("211"));
 		}
-		return new Response(HttpStatus.NOT_FOUND.value(), "107");
+		return new Response(HttpStatus.NOT_FOUND.value(), env.getProperty("107"));
 	}
 }
