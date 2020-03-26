@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundookeep.dao.Note;
@@ -64,7 +65,13 @@ public class NoteController {
 	@PutMapping("/trash/{nId}")
 	private ResponseEntity<Response> trash(@RequestHeader(name = "header") String token,@PathVariable("nId") Long nId){
 		nService.moveNoteToTrash(token, nId);
-		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("208")));
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("213")));
+	}
+	
+	@PutMapping("/color")
+	private ResponseEntity<Response> changeColor(@RequestHeader(name = "header") String token,@RequestParam Long nId, @RequestParam String color){
+		nService.changeColorOfNote(token, nId, color);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("214")));
 	}
 	
 	@DeleteMapping("/delete/{nId}")
@@ -92,12 +99,12 @@ public class NoteController {
 	}
 	
 	@PutMapping("/add/label")
-	private ResponseEntity<Response> createLabel(@RequestBody LabelDTO labelDTO, @RequestHeader(name = "header") String token, Long nId){
+	private ResponseEntity<Response> createLabel(@RequestBody LabelDTO labelDTO, @RequestHeader(name = "header") String token,@RequestParam Long nId){
 		return ResponseEntity.ok().body(nService.addOrCreateLable(token, nId, labelDTO));
 	}
 	
 	@DeleteMapping("/remove/label")
-	private ResponseEntity<Response> createLabel( @RequestHeader(name = "header") String token, Long noteId, Long labelId){
+	private ResponseEntity<Response> removeLabel( @RequestHeader(name = "header") String token,@RequestParam Long noteId,@RequestParam Long labelId){
 		return ResponseEntity.ok().body(nService.removeLabel(token, noteId, labelId));
 	}
 }

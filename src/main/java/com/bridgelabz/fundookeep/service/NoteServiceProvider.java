@@ -90,7 +90,7 @@ public class NoteServiceProvider implements NoteService{
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
-		filteredNote.setTrash(!filteredNote.isPin()); 
+		filteredNote.setTrash(!filteredNote.isTrash()); 
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 	}
@@ -123,6 +123,17 @@ public class NoteServiceProvider implements NoteService{
 		repository.save(user);
 	}
 	
+	@Transactional
+	public void changeColorOfNote(String token,Long noteId,String color) {
+		Long uId = JwtUtils.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		List<Note> notes = user.getNotes();
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
+		filteredNote.setColor(color);
+		filteredNote.setNoteUpdated(LocalDateTime.now());
+		repository.save(user);
+	}
+	
 	/**
 	 * Get all notes user have
 	 */
@@ -131,7 +142,34 @@ public class NoteServiceProvider implements NoteService{
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
-		notes.forEach(note -> {if(!note.isArchived() && !note.isTrash()) filteredNotes.add(note);});
+		notes.forEach(note -> {if(!note.isArchived() && !note.isTrash() && !note.isPin()) filteredNotes.add(note);});
+		return filteredNotes;
+	}
+	
+	public List<Note> getPinnedNotes(String token){
+		Long uId = JwtUtils.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		List<Note> notes = user.getNotes();
+		List<Note> filteredNotes = new LinkedList<>();
+		notes.forEach(note -> {if(note.isPin()) filteredNotes.add(note);});
+		return filteredNotes;
+	}
+	
+	public List<Note> getArchivedNotes(String token){
+		Long uId = JwtUtils.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		List<Note> notes = user.getNotes();
+		List<Note> filteredNotes = new LinkedList<>();
+		notes.forEach(note -> {if(note.isArchived()) filteredNotes.add(note);});
+		return filteredNotes;
+	}
+	
+	public List<Note> getTrashNotes(String token){
+		Long uId = JwtUtils.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
+		List<Note> notes = user.getNotes();
+		List<Note> filteredNotes = new LinkedList<>();
+		notes.forEach(note -> {if(note.isTrash()) filteredNotes.add(note);});
 		return filteredNotes;
 	}
 	

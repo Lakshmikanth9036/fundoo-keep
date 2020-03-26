@@ -63,7 +63,10 @@ public class Note {
 		this.isArchived = false;
 		this.isPin = false;
 		this.isTrash = false;
-		this.color = noteDTO.getColor();
+		if(noteDTO.getColor() != null)
+			this.color = noteDTO.getColor();
+		else
+			this.color = "White";
 	}
 
 	public Long getNoteId() {

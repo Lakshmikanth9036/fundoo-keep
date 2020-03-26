@@ -1,29 +1,32 @@
 package com.bridgelabz.fundookeep.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RedisService {
 	
+	@Autowired
 	private RedisTemplate<String, Long> redisTemplet;
 
-	private HashOperations<String, String, Long> hashOperation;
+	private ValueOperations<String, Long> valueOperation;
 	
 	@Autowired
 	public RedisService(RedisTemplate<String, Long> redisTemplet) {
 		this.redisTemplet = redisTemplet;
-		hashOperation = redisTemplet.opsForHash();
+		valueOperation = redisTemplet.opsForValue();
+		System.out.println(redisTemplet);
+		System.out.println(valueOperation);
 	}
 	
 	public void putToken(String token,Long id) {
-		hashOperation.put("token", token, id);
+		valueOperation.set(token, id);
 	}
 	
 	public Long getToken(String token) {
-		return hashOperation.get("token", token);
+		return valueOperation.get(token);
 	}
 	
 }
