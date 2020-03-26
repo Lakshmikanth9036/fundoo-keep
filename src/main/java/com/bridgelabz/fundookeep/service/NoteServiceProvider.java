@@ -151,7 +151,7 @@ public class NoteServiceProvider implements NoteService{
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
-		notes.forEach(note -> {if(note.isPin()) filteredNotes.add(note);});
+		notes.forEach(note -> {if(note.isPin() && !note.isTrash()) filteredNotes.add(note);});
 		return filteredNotes;
 	}
 	
@@ -160,7 +160,7 @@ public class NoteServiceProvider implements NoteService{
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
-		notes.forEach(note -> {if(note.isArchived()) filteredNotes.add(note);});
+		notes.forEach(note -> {if(note.isArchived() && !note.isTrash()) filteredNotes.add(note);});
 		return filteredNotes;
 	}
 	

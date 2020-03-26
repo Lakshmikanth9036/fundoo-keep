@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.bridgelabz.fundookeep.dto.NoteDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Note {
@@ -141,13 +140,6 @@ public class Note {
 		this.isTrash = isTrash;
 	}
 
-	@Override
-	public String toString() {
-		return "Note [noteId=" + noteId + ", title=" + title + ", description=" + description + ", noteCreated="
-				+ noteCreated + ", noteUpdated=" + noteUpdated + ", isArchived=" + isArchived + ", isPin=" + isPin
-				+ ", isTrash=" + isTrash + ", color=" + color + "]";
-	}
-
 	public List<Label> getLabels() {
 		return labels;
 	}
@@ -156,5 +148,4 @@ public class Note {
 		this.labels = labels;
 	}
 
-	
 }

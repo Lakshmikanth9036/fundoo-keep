@@ -86,6 +86,24 @@ public class NoteController {
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
 	}
 	
+	@GetMapping("/getallPinnedNotes")
+	private ResponseEntity<Response> getallPinnedNotes(@RequestHeader(name = "header") String token){
+		List<Note> notes = nService.getPinnedNotes(token);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
+	}
+	
+	@GetMapping("/getArchivedNotes")
+	private ResponseEntity<Response> getArchivedNotes(@RequestHeader(name = "header") String token){
+		List<Note> notes = nService.getArchivedNotes(token);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
+	}
+	
+	@GetMapping("/getTrashNotes")
+	private ResponseEntity<Response> getTrashNotes(@RequestHeader(name = "header") String token){
+		List<Note> notes = nService.getTrashNotes(token);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
+	}
+	
 	@GetMapping("/sortByTitle")
 	private ResponseEntity<Response> getAllNotesSortedByName(@RequestHeader(name = "header") String token){
 		List<Note> notes = nService.sortByTitle(token);
