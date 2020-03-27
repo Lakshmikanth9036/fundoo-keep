@@ -2,8 +2,11 @@ package com.bridgelabz.fundookeep.service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +15,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.comparator.Comparators;
 
 import com.bridgelabz.fundookeep.dao.Label;
 import com.bridgelabz.fundookeep.dao.Note;
@@ -182,11 +186,13 @@ public class NoteServiceProvider implements NoteService{
 		
 		List<Note> notes = getAllNotes(token);
 		
-		Collections.sort(notes, (n1,n2) -> 
-		{
-			return n1.getTitle().compareTo(n2.getTitle());
-		});
-		return notes;
+		List<Note> sortedNote = notes.parallelStream().sorted(Comparator.comparing(Note::getTitle)).collect(Collectors.toList());
+		
+//		Collections.sort(notes, (n1,n2) -> 
+//		{
+//			return n1.getTitle().compareTo(n2.getTitle());
+//		});
+		return sortedNote;
 	}
 	
 	/**
@@ -194,11 +200,13 @@ public class NoteServiceProvider implements NoteService{
 	 */
 	public List<Note> sortByDateAndTime(String token){
 		List<Note> notes = getAllNotes(token);
-		Collections.sort(notes, (n1,n2) -> 
-		{
-			return n1.getNoteCreated().compareTo(n2.getNoteCreated());
-		});
-		return notes;
+		
+		List<Note> sotedNote = notes.parallelStream().sorted(Comparator.comparing(Note::getNoteUpdated)).collect(Collectors.toList());
+//		Collections.sort(notes, (n1,n2) -> 
+//		{
+//			return n1.getNoteCreated().compareTo(n2.getNoteCreated());
+//		});
+		return sotedNote;
 	}
 	
 	/**
