@@ -34,8 +34,11 @@ public class LabelServiceProvider implements LabelService{
 	@Autowired
 	private Environment env;
 	
+	@Autowired
+	private JwtUtils jwt;
+	
 	public Response createLabel(String token, LabelDTO labelDTO) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		Label label = new Label(labelDTO);
 		boolean exist = user.getLabels().stream().noneMatch(lbl -> lbl.getLabelName().equalsIgnoreCase(label.getLabelName()));
@@ -50,7 +53,7 @@ public class LabelServiceProvider implements LabelService{
 	 
 	@Transactional
 	public void updateLabel(String token,  LabelDTO labelDTO, Long lId) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Label> labels = user.getLabels();
 		Label filteredLabel = labels.stream().filter(lbl -> lbl.getLabelId().equals(lId)).findFirst().orElseThrow(() -> new LabelException(404,env.getProperty("109")));
@@ -60,7 +63,7 @@ public class LabelServiceProvider implements LabelService{
 	
 	@Transactional
 	public void deleteLabel(String token, Long lId) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Label> labels = user.getLabels();
 		Label filteredLabel = labels.stream().filter(lbl -> lbl.getLabelId().equals(lId)).findFirst().orElseThrow(() -> new LabelException(404,env.getProperty("109")));
@@ -70,14 +73,14 @@ public class LabelServiceProvider implements LabelService{
 	}
 	
 	public List<Label> getAllLables(String token){
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Label> labels = user.getLabels();
 		return labels;
 	}
 	
 	public List<Note> getNoteByLabel(String token, Long lid){
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		Label lbl = user.getLabels().stream().filter(label -> label.getLabelId().equals(lid)).findFirst().orElseThrow(() -> new LabelException(404,env.getProperty("109")));
 		return lbl.getNotes();

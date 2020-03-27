@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundookeep.exception.TokenException;
 import com.bridgelabz.fundookeep.repository.RedisService;
@@ -12,40 +13,38 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+@Service
 public class JwtUtils {
 
 	@Autowired
-	private static RedisService redisService;
+	private RedisService redisService;
 	
-	private static final String SECRET = "kanth@123";
-	private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+	private final String SECRET = "kanth@123";
+	private  final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-	
-	private JwtUtils() {
-	}
-
-	public static String generateToken(Long id) {
+	public String generateToken(Long id) {
 		return Jwts.builder().setSubject(String.valueOf(id))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
 	}
 
-	public static String generateUserToken(Long id) {
+	public String generateUserToken(Long id) {
 		return Jwts.builder().setSubject(String.valueOf(id)).signWith(SignatureAlgorithm.HS512, SECRET).compact();
 	}
 
-	public static Long decodeToken(String jwt) {
+	public Long decodeToken(String jwt) {
 		try {
-//			if (redisService.getToken(jwt) != null) {
-//				System.out.println(redisService.getToken(jwt));
-//				return redisService.getToken(jwt);
-//			} else {
+			if (redisService.getToken(jwt) != null) {
+				System.out.println("This is redis cache ===>"+redisService.getToken(jwt));
+				return redisService.getToken(jwt);
+			} else {
+			System.out.println(redisService);
 				Claims claim = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(jwt).getBody();
 				Long id = Long.parseLong(claim.getSubject());
-				//redisService.putToken(jwt, id);
-//				System.out.println(redisService.getToken(jwt));
+				redisService.putToken(jwt, id);
+				System.out.println("This is database ===>"+redisService.getToken(jwt));
 				return id;
-//			}
+			}
 		} catch (TokenException e) {
 			throw new TokenException(HttpStatus.REQUEST_TIMEOUT.value(), HttpStatus.REQUEST_TIMEOUT.toString());
 		}

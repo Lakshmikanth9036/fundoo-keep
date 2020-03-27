@@ -21,7 +21,6 @@ import com.bridgelabz.fundookeep.dto.NoteDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.exception.NoteException;
 import com.bridgelabz.fundookeep.exception.UserException;
-import com.bridgelabz.fundookeep.repository.LabelRepository;
 import com.bridgelabz.fundookeep.repository.NoteRepository;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
@@ -39,11 +38,14 @@ public class NoteServiceProvider implements NoteService{
 	@Autowired
 	private Environment env;
 	
+	@Autowired
+	private JwtUtils jwt;
+	
 	/**
 	 * Creates a new note
 	 */
 	public void createNote(NoteDTO noteDTO,String token) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		Note note = new Note(noteDTO);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		user.getNotes().add(note);
@@ -56,7 +58,7 @@ public class NoteServiceProvider implements NoteService{
 	@Transactional
 	public void updateNote(NoteDTO noteDTO, String token, Long noteId) {
 		
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
@@ -72,7 +74,7 @@ public class NoteServiceProvider implements NoteService{
 	 */
 	@Transactional
 	public void deleteNote(String token, Long noteId) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
@@ -86,7 +88,7 @@ public class NoteServiceProvider implements NoteService{
 	 */
 	@Transactional
 	public void moveNoteToTrash(String token, Long noteId) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
@@ -100,7 +102,7 @@ public class NoteServiceProvider implements NoteService{
 	 */	
 	@Transactional
 	public void moveNoteToArchive(String token, Long noteId) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
@@ -114,7 +116,7 @@ public class NoteServiceProvider implements NoteService{
 	 */
 	@Transactional
 	public void pinNote(String token, Long noteId) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
@@ -125,7 +127,7 @@ public class NoteServiceProvider implements NoteService{
 	
 	@Transactional
 	public void changeColorOfNote(String token,Long noteId,String color) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404,env.getProperty("105")));
@@ -138,7 +140,7 @@ public class NoteServiceProvider implements NoteService{
 	 * Get all notes user have
 	 */
 	public List<Note> getAllNotes(String token){
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
@@ -147,7 +149,7 @@ public class NoteServiceProvider implements NoteService{
 	}
 	
 	public List<Note> getPinnedNotes(String token){
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
@@ -156,7 +158,7 @@ public class NoteServiceProvider implements NoteService{
 	}
 	
 	public List<Note> getArchivedNotes(String token){
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
@@ -165,7 +167,7 @@ public class NoteServiceProvider implements NoteService{
 	}
 	
 	public List<Note> getTrashNotes(String token){
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
@@ -203,7 +205,7 @@ public class NoteServiceProvider implements NoteService{
 	 * Add or create a label for the note
 	 */
 	public Response addOrCreateLable(String token,Long noteId,LabelDTO labelDTO) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		Label lb = new Label(labelDTO);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		Note filteredNote = user.getNotes().stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404, "105"));
@@ -235,7 +237,7 @@ public class NoteServiceProvider implements NoteService{
 	 */
 	@Transactional
 	public Response removeLabel(String token,Long noteId,Long labelId) {
-		Long uId = JwtUtils.decodeToken(token);
+		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		Note filteredNote = user.getNotes().stream().filter(note -> note.getNoteId().equals(noteId)).findFirst().orElseThrow(() -> new NoteException(404, "105"));
 		List<Label> labels = filteredNote.getLabels();

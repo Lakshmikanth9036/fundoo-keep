@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisService {
 	
-	@Autowired
 	private RedisTemplate<String, Long> redisTemplet;
 
 	private ValueOperations<String, Long> valueOperation;
@@ -17,8 +16,6 @@ public class RedisService {
 	public RedisService(RedisTemplate<String, Long> redisTemplet) {
 		this.redisTemplet = redisTemplet;
 		valueOperation = redisTemplet.opsForValue();
-		System.out.println(redisTemplet);
-		System.out.println(valueOperation);
 	}
 	
 	public void putToken(String token,Long id) {

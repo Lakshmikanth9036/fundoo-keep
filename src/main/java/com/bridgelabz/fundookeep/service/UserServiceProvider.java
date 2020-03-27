@@ -40,6 +40,9 @@ public class UserServiceProvider implements UserService {
 
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private JwtUtils jwt;
 
 	/**
 	 * Saves the user details
@@ -59,7 +62,7 @@ public class UserServiceProvider implements UserService {
 				mail.setTo(user.getEmailAddress());
 				mail.setSubject(Constants.REGISTRATION_STATUS);
 				mail.setContext("Hi " + user.getFirstName() + " " + user.getLastName() + Constants.REGISTRATION_MESSAGE
-						+ Constants.VERIFICATION_LINK + JwtUtils.generateToken(user.getUserId()));
+						+ Constants.VERIFICATION_LINK + jwt.generateToken(user.getUserId()));
 				producer.sendToQueue(mail);
 				consumer.receiveMail(mail);
 			}
@@ -75,7 +78,7 @@ public class UserServiceProvider implements UserService {
 	 */
 	@Override
 	public int updateVerificationStatus(String token) {
-		Long id = JwtUtils.decodeToken(token);
+		Long id = jwt.decodeToken(token);
 		try {
 			return repository.updateUserVerificationStatus(id, LocalDateTime.now());
 		} catch (UserException e) {
@@ -104,7 +107,7 @@ public class UserServiceProvider implements UserService {
 				user.setNotes(null);
 				user.setLabels(null);
 				return new LoginResponse(HttpStatus.OK.value(), env.getProperty("202"), user,
-						JwtUtils.generateUserToken(user.getUserId()));
+						jwt.generateUserToken(user.getUserId()));
 			}
 			throw new UserException(401, env.getProperty("401"));
 		}
@@ -122,7 +125,7 @@ public class UserServiceProvider implements UserService {
 		Mail mail = new Mail();
 		mail.setTo(emailAddress);
 		mail.setSubject(Constants.RESET_MSG);
-		mail.setContext(Constants.RESET_PASSWORD_LINK + JwtUtils.generateToken(user.getUserId()));
+		mail.setContext(Constants.RESET_PASSWORD_LINK + jwt.generateToken(user.getUserId()));
 		producer.sendToQueue(mail);
 		consumer.receiveMail(mail);
 	}
@@ -132,7 +135,7 @@ public class UserServiceProvider implements UserService {
 	 */
 	@Override
 	public int resetPassword(String token, String newPassword) {
-		Long id = JwtUtils.decodeToken(token);
+		Long id = jwt.decodeToken(token);
 		return repository.updatePassword(id, encoder.encode(newPassword), LocalDateTime.now());
 	}
 
