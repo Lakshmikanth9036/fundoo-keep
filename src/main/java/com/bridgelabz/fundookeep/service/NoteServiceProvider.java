@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,11 +64,22 @@ public class NoteServiceProvider implements NoteService{
 	 * Creates a new note
 	 */
 	public void createNote(NoteDTO noteDTO,String token) {
+		
 		Long uId = jwt.decodeToken(token);
 		Note note = new Note(noteDTO);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
 		user.getNotes().add(note);
+		Note nte = noteRepository.save(note);
 		repository.save(user);
+
+		Map<String, Object> documentMapper = objectMapper.convertValue(nte, Map.class);
+		IndexRequest indexRequest = new IndexRequest(Constants.INDEX, Constants.TYPE, String.valueOf(note.getNoteId()))
+				.source(documentMapper);
+		try {
+			client.index(indexRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -85,6 +97,15 @@ public class NoteServiceProvider implements NoteService{
 		filteredNote.setColor(noteDTO.getColor());
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
+		
+		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,String.valueOf(filteredNote.getNoteId()));
+		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
+		try {
+			client.update(updateRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -159,4 +159,11 @@ public class Note {
 		this.reminder = reminder;
 	}
 
+	@Override
+	public String toString() {
+		return "Note [noteId=" + noteId + ", title=" + title + ", description=" + description + ", noteCreated="
+				+ noteCreated + ", noteUpdated=" + noteUpdated + ", isArchived=" + isArchived + ", isPin=" + isPin
+				+ ", isTrash=" + isTrash + ", color=" + color + ", reminder=" + reminder + ", labels=" + labels + "]";
+	}
+
 }
