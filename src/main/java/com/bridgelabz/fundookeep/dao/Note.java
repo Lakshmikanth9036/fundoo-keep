@@ -47,6 +47,9 @@ public class Note {
 	@Column(name = "Color", columnDefinition = "varchar(10) default 'White'")
 	private String color;
 	
+	@Column
+	private LocalDateTime reminder;
+	
 	@ManyToMany(cascade = CascadeType.REMOVE)
 	private List<Label> labels;
 	
@@ -146,6 +149,14 @@ public class Note {
 
 	public void setLabels(List<Label> labels) {
 		this.labels = labels;
+	}
+
+	public LocalDateTime getReminder() {
+		return reminder;
+	}
+
+	public void setReminder(LocalDateTime reminder) {
+		this.reminder = reminder;
 	}
 
 }

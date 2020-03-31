@@ -1,15 +1,21 @@
 package com.bridgelabz.fundookeep.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -17,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.comparator.Comparators;
 
+import com.bridgelabz.fundookeep.constants.Constants;
 import com.bridgelabz.fundookeep.dao.Label;
 import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dao.User;
@@ -28,6 +35,7 @@ import com.bridgelabz.fundookeep.exception.UserException;
 import com.bridgelabz.fundookeep.repository.NoteRepository;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
  
 @Service
 @PropertySource("classpath:message.properties")
@@ -44,6 +52,12 @@ public class NoteServiceProvider implements NoteService{
 	
 	@Autowired
 	private JwtUtils jwt;
+	
+	@Autowired
+	private RestHighLevelClient client;
+
+	@Autowired
+	private ObjectMapper objectMapper;
 	
 	/**
 	 * Creates a new note
@@ -129,6 +143,9 @@ public class NoteServiceProvider implements NoteService{
 		repository.save(user);
 	}
 	
+	/**
+	 * To change the color of the note
+	 */
 	@Transactional
 	public void changeColorOfNote(String token,Long noteId,String color) {
 		Long uId = jwt.decodeToken(token);
@@ -149,9 +166,22 @@ public class NoteServiceProvider implements NoteService{
 		List<Note> notes = user.getNotes();
 		List<Note> filteredNotes = new LinkedList<>();
 		notes.forEach(note -> {if(!note.isArchived() && !note.isTrash() && !note.isPin()) filteredNotes.add(note);});
+//		filteredNotes.forEach(note -> {
+//			Map<String, Object> documentMapper = objectMapper.convertValue(note, Map.class);
+//			IndexRequest indexRequest = new IndexRequest(Constants.INDEX, Constants.TYPE, String.valueOf(note.getNoteId()))
+//					.source(documentMapper);
+//			try {
+//				client.index(indexRequest, RequestOptions.DEFAULT);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		});
 		return filteredNotes;
 	}
 	
+	/**
+	 * To get all the pinned notes
+	 */
 	public List<Note> getPinnedNotes(String token){
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
@@ -161,6 +191,9 @@ public class NoteServiceProvider implements NoteService{
 		return filteredNotes;
 	}
 	
+	/**
+	 * To get all of the archive notes
+	 */
 	public List<Note> getArchivedNotes(String token){
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
@@ -170,6 +203,9 @@ public class NoteServiceProvider implements NoteService{
 		return filteredNotes;
 	}
 	
+	/**
+	 * To get all of the trash notes
+	 */
 	public List<Note> getTrashNotes(String token){
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));

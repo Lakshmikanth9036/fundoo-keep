@@ -14,4 +14,7 @@ public class Constants {
 	public static final String QUEUE_NAME = "mail-queue";
 	public static final String ROUTING_KEY = "mail-sender";
 	
+	public static final String INDEX = "notes";
+	public static final String TYPE = "_doc";
+	
 }

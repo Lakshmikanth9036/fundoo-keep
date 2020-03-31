@@ -1,5 +1,8 @@
 package com.bridgelabz.fundookeep.config;
 
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -15,8 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bridgelabz.fundookeep.constants.Constants;
 import com.bridgelabz.fundookeep.repository.UserRepositoryService;
-import com.bridgelabz.fundookeep.utils.JwtUtils;
-import com.bridgelabz.fundookeep.utils.MailService;
 
 @Configuration
 public class FundooKeepConfig {
@@ -61,6 +62,14 @@ public class FundooKeepConfig {
 		RedisTemplate<String, Long> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(jedisConnectionFactory());
 		return redisTemplate;
+	}
+	
+	@Bean(destroyMethod = "close")
+	public RestHighLevelClient elasticsearchClient() {
+
+		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost",9200,"http")));
+
+		return client;
 	}
 	
 }
