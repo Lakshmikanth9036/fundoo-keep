@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dto.LabelDTO;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
+import com.bridgelabz.fundookeep.dto.RemainderDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.service.NoteService;
 
@@ -74,6 +75,18 @@ public class NoteController {
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("214")));
 	}
 	
+	@PutMapping("/add/remainder")
+	private ResponseEntity<Response> addRemainder(@RequestHeader(name = "header") String token, @RequestBody RemainderDTO remainder, @RequestParam Long nId){
+		nService.addRemainder(token, nId, remainder);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("215")));
+	}
+	
+	@DeleteMapping("/remove/remainder")
+	private ResponseEntity<Response> removeRemainder(@RequestHeader(name = "header") String token, @RequestParam Long nId){
+		nService.removeRemainder(token, nId);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("216")));
+	}
+	
 	@DeleteMapping("/delete/{nId}")
 	private ResponseEntity<Response> deleteNote(@RequestHeader(name = "header") String token,@PathVariable("nId") Long nId){
 		nService.deleteNote(token, nId);
@@ -101,6 +114,12 @@ public class NoteController {
 	@GetMapping("/getTrashNotes")
 	private ResponseEntity<Response> getTrashNotes(@RequestHeader(name = "header") String token){
 		List<Note> notes = nService.getTrashNotes(token);
+		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
+	}
+	
+	@GetMapping("/getRemainderNotes")
+	private ResponseEntity<Response> getRemainderNotes(@RequestHeader(name = "header") String token){
+		List<Note> notes = nService.getRemainderNotes(token);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
 	}
 	
@@ -133,4 +152,9 @@ public class NoteController {
 	private ResponseEntity<Response> removeLabel( @RequestHeader(name = "header") String token,@RequestParam Long noteId,@RequestParam Long labelId){
 		return ResponseEntity.ok().body(nService.removeLabel(token, noteId, labelId));
 	}
+	
+	
+	
+	
+	
 }

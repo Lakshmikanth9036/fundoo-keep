@@ -3,18 +3,15 @@ package com.bridgelabz.fundookeep.service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -29,7 +26,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.comparator.Comparators;
 
 import com.bridgelabz.fundookeep.constants.Constants;
 import com.bridgelabz.fundookeep.dao.Label;
@@ -37,6 +33,7 @@ import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LabelDTO;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
+import com.bridgelabz.fundookeep.dto.RemainderDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.exception.NoteException;
 import com.bridgelabz.fundookeep.exception.UserException;
@@ -227,14 +224,63 @@ public class NoteServiceProvider implements NoteService {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Add the remainder to the note
+	 * @param token jwt that contains user token
+	 * @param noteId note id for which we need to add remainder
+	 * @param remainder date and time
+	 */
+	@Transactional
+	public void addRemainder(String token, Long noteId, RemainderDTO remainder) {
+		Long uId = jwt.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
+		List<Note> notes = user.getNotes();
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst()
+				.orElseThrow(() -> new NoteException(404, env.getProperty("105")));
+		filteredNote.setReminder(remainder.getRemainder());
+		filteredNote.setNoteUpdated(LocalDateTime.now());
+		repository.save(user);
+	}
+	
+	/**
+	 * Remove the remainder from note
+	 * @param token jwt that contains user token
+	 * @param noteId note id from which we need to remove remainder
+	 */
+	@Transactional
+	public void removeRemainder(String token, Long noteId) {
+		Long uId = jwt.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
+		List<Note> notes = user.getNotes();
+		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst()
+				.orElseThrow(() -> new NoteException(404, env.getProperty("105")));
+		filteredNote.setReminder(null);
+		filteredNote.setNoteUpdated(LocalDateTime.now());
+		repository.save(user);
+	}
+	
+	/**
+	 * Get all remainder notes
+	 * @param token jwt that contains user token
+	 * @return all notes that have remainder
+	 */
+	public List<Note> getRemainderNotes(String token){
+		List<Note> notes = getNoteById(token);
+		List<Note> filteredNotes = new LinkedList<>();
+		notes.forEach(note -> {
+			if (!note.isTrash() && note.getReminder()!=null)
+				filteredNotes.add(note);
+		});
+		return filteredNotes;
+	}
+	
 	/**
 	 * Get all notes user have
 	 */
 	public List<Note> getAllNotes(String token) {
-		Long uId = jwt.decodeToken(token);
-		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
-		List<Note> notes = user.getNotes();
+		
+		List<Note> notes = getNoteById(token);
 		List<Note> filteredNotes = new LinkedList<>();
 		notes.forEach(note -> {
 			if (!note.isArchived() && !note.isTrash() && !note.isPin())
@@ -257,9 +303,7 @@ public class NoteServiceProvider implements NoteService {
 	 * To get all the pinned notes
 	 */
 	public List<Note> getPinnedNotes(String token) {
-		Long uId = jwt.decodeToken(token);
-		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
-		List<Note> notes = user.getNotes();
+		List<Note> notes = getNoteById(token);
 		List<Note> filteredNotes = new LinkedList<>();
 		notes.forEach(note -> {
 			if (note.isPin() && !note.isTrash())
@@ -272,9 +316,7 @@ public class NoteServiceProvider implements NoteService {
 	 * To get all of the archive notes
 	 */
 	public List<Note> getArchivedNotes(String token) {
-		Long uId = jwt.decodeToken(token);
-		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
-		List<Note> notes = user.getNotes();
+		List<Note> notes = getNoteById(token);
 		List<Note> filteredNotes = new LinkedList<>();
 		notes.forEach(note -> {
 			if (note.isArchived() && !note.isTrash())
@@ -287,9 +329,8 @@ public class NoteServiceProvider implements NoteService {
 	 * To get all of the trash notes
 	 */
 	public List<Note> getTrashNotes(String token) {
-		Long uId = jwt.decodeToken(token);
-		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
-		List<Note> notes = user.getNotes();
+		
+		List<Note> notes = getNoteById(token);
 		List<Note> filteredNotes = new LinkedList<>();
 		notes.forEach(note -> {
 			if (note.isTrash())
@@ -303,7 +344,7 @@ public class NoteServiceProvider implements NoteService {
 	 */
 	public List<Note> sortByTitle(String token) {
 
-		List<Note> notes = getAllNotes(token);
+		List<Note> notes = getNoteById(token);
 
 		List<Note> sortedNote = notes.parallelStream().sorted(Comparator.comparing(Note::getTitle))
 				.collect(Collectors.toList());
@@ -319,7 +360,7 @@ public class NoteServiceProvider implements NoteService {
 	 * Get all notes sorted by created time
 	 */
 	public List<Note> sortByDateAndTime(String token) {
-		List<Note> notes = getAllNotes(token);
+		List<Note> notes = getNoteById(token);
 
 		List<Note> sotedNote = notes.parallelStream().sorted(Comparator.comparing(Note::getNoteUpdated))
 				.collect(Collectors.toList());
@@ -422,6 +463,12 @@ public class NoteServiceProvider implements NoteService {
 			notes.add(objectMapper.convertValue(hit.getSourceAsMap(), Note.class));
 		}
 		return notes;
+	}
+	
+	private List<Note> getNoteById(String token){
+		Long uId = jwt.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
+		return user.getNotes();
 	}
 
 }
