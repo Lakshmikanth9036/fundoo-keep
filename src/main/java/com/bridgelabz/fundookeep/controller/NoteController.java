@@ -116,6 +116,14 @@ public class NoteController {
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("302"), notes ));
 	}
 	
+	@GetMapping("/getNoteByTitleAndDescription/{text}")
+	private ResponseEntity<Response> getNoteByTitleAndDescription(@PathVariable("text") String text){
+		if(nService.getNoteByTitleAndDescription(text).size() > 0)
+			return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("303"), nService.getNoteByTitleAndDescription(text) ));
+		else
+			return ResponseEntity.ok().body(new Response(HttpStatus.NOT_FOUND.value(), env.getProperty("405")));
+	}
+	
 	@PutMapping("/add/label")
 	private ResponseEntity<Response> createLabel(@RequestBody LabelDTO labelDTO, @RequestHeader(name = "header") String token,@RequestParam Long nId){
 		return ResponseEntity.ok().body(nService.addOrCreateLable(token, nId, labelDTO));

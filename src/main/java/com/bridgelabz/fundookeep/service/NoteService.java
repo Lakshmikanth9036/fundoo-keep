@@ -24,4 +24,5 @@ public interface NoteService {
 	public List<Note> sortByDateAndTime(String token);
 	public Response addOrCreateLable(String token,Long noteId,LabelDTO labelDTO);
 	public Response removeLabel(String token,Long noteId,Long labelId);
+	public List<Note> getNoteByTitleAndDescription(String text);
 }
