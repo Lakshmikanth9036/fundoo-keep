@@ -33,7 +33,7 @@ import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LabelDTO;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
-import com.bridgelabz.fundookeep.dto.RemainderDTO;
+import com.bridgelabz.fundookeep.dto.ReminderDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.exception.NoteException;
 import com.bridgelabz.fundookeep.exception.UserException;
@@ -232,15 +232,24 @@ public class NoteServiceProvider implements NoteService {
 	 * @param remainder date and time
 	 */
 	@Transactional
-	public void addRemainder(String token, Long noteId, RemainderDTO remainder) {
+	public void addRemainder(String token, Long noteId, ReminderDTO remainder) {
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst()
 				.orElseThrow(() -> new NoteException(404, env.getProperty("105")));
-		filteredNote.setReminder(remainder.getRemainder());
+		filteredNote.setReminder(remainder.getReminder());
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
+		
+		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
+				String.valueOf(filteredNote.getNoteId()));
+		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
+		try {
+			client.update(updateRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -258,6 +267,15 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setReminder(null);
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
+		
+		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
+				String.valueOf(filteredNote.getNoteId()));
+		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
+		try {
+			client.update(updateRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -391,6 +409,16 @@ public class NoteServiceProvider implements NoteService {
 				filteredNote.setNoteUpdated(LocalDateTime.now());
 				lb.getNotes().add(filteredNote);
 				repository.save(user);
+				
+				UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
+						String.valueOf(filteredNote.getNoteId()));
+				updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
+				try {
+					client.update(updateRequest, RequestOptions.DEFAULT);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 				return new Response(HttpStatus.OK.value(), env.getProperty("209"), labelDTO);
 			} else {
 				Label l = user.getLabels().stream()
@@ -400,6 +428,15 @@ public class NoteServiceProvider implements NoteService {
 				filteredNote.setNoteUpdated(LocalDateTime.now());
 				l.getNotes().add(filteredNote);
 				repository.save(user);
+				
+				UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
+						String.valueOf(filteredNote.getNoteId()));
+				updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
+				try {
+					client.update(updateRequest, RequestOptions.DEFAULT);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				return new Response(HttpStatus.OK.value(), env.getProperty("210"), labelDTO);
 			}
 		}

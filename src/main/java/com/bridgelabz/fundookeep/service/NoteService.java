@@ -5,7 +5,7 @@ import java.util.List;
 import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dto.LabelDTO;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
-import com.bridgelabz.fundookeep.dto.RemainderDTO;
+import com.bridgelabz.fundookeep.dto.ReminderDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 
 public interface NoteService {
@@ -28,6 +28,6 @@ public interface NoteService {
 	public List<Note> getNoteByTitleAndDescription(String text);
 	public List<Note> getRemainderNotes(String token);
 	public void removeRemainder(String token, Long noteId);
-	public void addRemainder(String token, Long noteId, RemainderDTO remainder);
+	public void addRemainder(String token, Long noteId, ReminderDTO remainder);
 	
 }

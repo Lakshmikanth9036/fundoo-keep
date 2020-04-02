@@ -1,5 +1,6 @@
 package com.bridgelabz.fundookeep.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dto.LabelDTO;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
-import com.bridgelabz.fundookeep.dto.RemainderDTO;
+import com.bridgelabz.fundookeep.dto.ReminderDTO;
 import com.bridgelabz.fundookeep.dto.Response;
 import com.bridgelabz.fundookeep.service.NoteService;
 
@@ -76,7 +77,7 @@ public class NoteController {
 	}
 	
 	@PutMapping("/add/remainder")
-	private ResponseEntity<Response> addRemainder(@RequestHeader(name = "header") String token, @RequestBody RemainderDTO remainder, @RequestParam Long nId){
+	private ResponseEntity<Response> addRemainder(@RequestHeader(name = "header") String token, @RequestBody ReminderDTO remainder, @RequestParam Long nId){
 		nService.addRemainder(token, nId, remainder);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("215")));
 	}
