@@ -51,7 +51,7 @@ public class LabelController {
 	}
 	
 	@GetMapping(value = "/getNotesOfLable")
-	private ResponseEntity<Response> getNotesOfLable(@RequestHeader(name = "header") String token, Long lid){
+	private ResponseEntity<Response> getNotesOfLable(@RequestHeader(name = "header") String token,@RequestParam Long lid){
 		return ResponseEntity.ok().body(new Response(HttpStatus.FOUND.value(), "Found all labels", lService.getNoteByLabel(token, lid)));
 	}
 }
