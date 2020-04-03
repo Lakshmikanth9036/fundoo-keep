@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -126,6 +128,9 @@ public class NoteServiceProvider implements NoteService {
 		notes.remove(filteredNote);
 		noteRepository.delete(filteredNote);
 		repository.save(user);
+		
+//		DeleteRequest deleteRequest = new DeleteRequest(Constants.INDEX, Constants.TYPE,String.valueOf());
+//        DeleteResponse response = client.delete(deleteRequest,RequestOptions.DEFAULT);
 
 	}
 
