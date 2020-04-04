@@ -25,8 +25,10 @@ import com.bridgelabz.fundookeep.interceptor.RequestHeaderInterceptor;
 import com.bridgelabz.fundookeep.repository.UserRepositoryService;
 
 @Configuration
-@EnableWebMvc
-public class FundooKeepConfig extends WebMvcConfigurationSupport{
+//@EnableWebMvc
+public class FundooKeepConfig 
+//extends WebMvcConfigurationSupport
+{
 	
 	@Autowired
 	private RequestHeaderInterceptor requestHeaderInterceptor;
@@ -81,10 +83,14 @@ public class FundooKeepConfig extends WebMvcConfigurationSupport{
 		return client;
 	}
 	
-	@Override
-	public void addInterceptors(InterceptorRegistry registery) {
-		registery.addInterceptor(requestHeaderInterceptor).excludePathPatterns("/user/**");
-	}
-	
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registery) {
+//		registery.addInterceptor(requestHeaderInterceptor)
+//		.addPathPatterns("/note/**")
+//		.addPathPatterns("/label/**")
+//		.excludePathPatterns("/user/**")
+//		.excludePathPatterns("/note/getNoteByTitleAndDescription/**");
+//	}
+//	
 }
 

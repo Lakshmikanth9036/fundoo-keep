@@ -33,18 +33,20 @@ public class JwtUtils {
 	}
 
 	public Long decodeToken(String jwt) {
-		try {
+		
 			if (redisService.getToken(jwt) != null)
 				return redisService.getToken(jwt);
 			else {
+				try {
 				System.out.println(redisService);
 				Claims claim = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(jwt).getBody();
 				Long id = Long.parseLong(claim.getSubject());
 				redisService.putToken(jwt, id);
 				return id;
+				}
+				 catch (TokenException e) {
+						throw new TokenException(HttpStatus.REQUEST_TIMEOUT.value(), "HttpStatus.REQUEST_TIMEOUT.toString()");
+					}
 			}
-		} catch (TokenException e) {
-			throw new TokenException(HttpStatus.REQUEST_TIMEOUT.value(), HttpStatus.REQUEST_TIMEOUT.toString());
-		}
 	}
 }

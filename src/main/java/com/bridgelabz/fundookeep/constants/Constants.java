@@ -18,5 +18,6 @@ public class Constants {
 	public static final String TYPE = "_doc";
 	
 	public static final String INVALID_HEADER = "invalid request....."; 
+	public static final String INVALID_TOKEN = "invalid token....."; 
 	
 }

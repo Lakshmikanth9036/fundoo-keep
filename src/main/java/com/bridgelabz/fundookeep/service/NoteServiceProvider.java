@@ -42,7 +42,10 @@ import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 @PropertySource("classpath:message.properties")
 public class NoteServiceProvider implements NoteService {
 
@@ -181,6 +184,8 @@ public class NoteServiceProvider implements NoteService {
 	 */
 	@Transactional
 	public void changeColorOfNote(String token, Long noteId, String color) {
+		
+		log.info("Change color method");
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
 		List<Note> notes = user.getNotes();
