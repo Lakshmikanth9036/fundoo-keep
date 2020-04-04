@@ -105,14 +105,7 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
-		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-				String.valueOf(filteredNote.getNoteId()));
-		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-		try {
-			client.update(updateRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		updateNoteInES(filteredNote);
 	}
 
 	/**
@@ -148,14 +141,7 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
-		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-				String.valueOf(filteredNote.getNoteId()));
-		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-		try {
-			client.update(updateRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		updateNoteInES(filteredNote);
 	}
 
 	/**
@@ -172,14 +158,7 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
-		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-				String.valueOf(filteredNote.getNoteId()));
-		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-		try {
-			client.update(updateRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		updateNoteInES(filteredNote);
 	}
 
 	/**
@@ -196,14 +175,7 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
-		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-				String.valueOf(filteredNote.getNoteId()));
-		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-		try {
-			client.update(updateRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		updateNoteInES(filteredNote);
 	}
 
 	/**
@@ -220,14 +192,7 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
-		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-				String.valueOf(filteredNote.getNoteId()));
-		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-		try {
-			client.update(updateRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		updateNoteInES(filteredNote);
 	}
 	
 	/**
@@ -247,14 +212,7 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 		
-		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-				String.valueOf(filteredNote.getNoteId()));
-		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-		try {
-			client.update(updateRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		updateNoteInES(filteredNote);
 	}
 	
 	/**
@@ -273,14 +231,7 @@ public class NoteServiceProvider implements NoteService {
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 		
-		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-				String.valueOf(filteredNote.getNoteId()));
-		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-		try {
-			client.update(updateRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		updateNoteInES(filteredNote);
 	}
 	
 	/**
@@ -415,14 +366,7 @@ public class NoteServiceProvider implements NoteService {
 				lb.getNotes().add(filteredNote);
 				repository.save(user);
 				
-				UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-						String.valueOf(filteredNote.getNoteId()));
-				updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-				try {
-					client.update(updateRequest, RequestOptions.DEFAULT);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				updateNoteInES(filteredNote);
 				
 				return new Response(HttpStatus.OK.value(), env.getProperty("209"), labelDTO);
 			} else {
@@ -434,14 +378,8 @@ public class NoteServiceProvider implements NoteService {
 				l.getNotes().add(filteredNote);
 				repository.save(user);
 				
-				UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
-						String.valueOf(filteredNote.getNoteId()));
-				updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
-				try {
-					client.update(updateRequest, RequestOptions.DEFAULT);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				updateNoteInES(filteredNote);
+				
 				return new Response(HttpStatus.OK.value(), env.getProperty("210"), labelDTO);
 			}
 		}
@@ -511,6 +449,17 @@ public class NoteServiceProvider implements NoteService {
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
 		return user.getNotes();
+	}
+	
+	private void updateNoteInES(Note filteredNote) {
+		UpdateRequest updateRequest = new UpdateRequest(Constants.INDEX, Constants.TYPE,
+				String.valueOf(filteredNote.getNoteId()));
+		updateRequest.doc(objectMapper.convertValue(filteredNote, Map.class));
+		try {
+			client.update(updateRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
