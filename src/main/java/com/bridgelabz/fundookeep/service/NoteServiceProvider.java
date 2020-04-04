@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -403,6 +401,7 @@ public class NoteServiceProvider implements NoteService {
 			filteredNote.setNoteUpdated(LocalDateTime.now());
 			noteRepository.save(filteredNote);
 			repository.save(user);
+			updateNoteInES(filteredNote);
 			return new Response(HttpStatus.OK.value(), env.getProperty("211"));
 		}
 		return new Response(HttpStatus.NOT_FOUND.value(), env.getProperty("107"));

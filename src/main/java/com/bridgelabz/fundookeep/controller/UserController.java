@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundookeep.dto.LoginDTO;
+import com.bridgelabz.fundookeep.dto.LoginResponse;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 import com.bridgelabz.fundookeep.dto.Response;
-import com.bridgelabz.fundookeep.dto.LoginResponse;
 import com.bridgelabz.fundookeep.service.UserService;
 
 @RestController

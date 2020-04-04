@@ -17,4 +17,6 @@ public class Constants {
 	public static final String INDEX = "notes";
 	public static final String TYPE = "_doc";
 	
+	public static final String INVALID_HEADER = "invalid request....."; 
+	
 }

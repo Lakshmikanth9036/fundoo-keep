@@ -26,4 +26,12 @@ public class CustomeGlobalExceptionHandler extends ResponseEntityExceptionHandle
 		return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(InvalidHeaderException.class)
+	public ResponseEntity<ResponseError> customeTokenFormateException(InvalidHeaderException ex){
+		ResponseError error = new ResponseError();
+		error.setError(ex.getErrorMsg());
+		error.setStatus(ex.getErrorCode());
+		return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
+	}
+	
 }

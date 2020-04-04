@@ -9,18 +9,27 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import com.bridgelabz.fundookeep.constants.Constants;
+import com.bridgelabz.fundookeep.interceptor.RequestHeaderInterceptor;
 import com.bridgelabz.fundookeep.repository.UserRepositoryService;
 
 @Configuration
-public class FundooKeepConfig {
+@EnableWebMvc
+public class FundooKeepConfig extends WebMvcConfigurationSupport{
+	
+	@Autowired
+	private RequestHeaderInterceptor requestHeaderInterceptor;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -70,6 +79,11 @@ public class FundooKeepConfig {
 		RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost",9200,"http")));
 
 		return client;
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registery) {
+		registery.addInterceptor(requestHeaderInterceptor).excludePathPatterns("/user/**");
 	}
 	
 }
