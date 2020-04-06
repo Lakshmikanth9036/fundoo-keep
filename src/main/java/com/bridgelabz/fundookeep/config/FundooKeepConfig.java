@@ -86,11 +86,9 @@ public class FundooKeepConfig
 //	@Override
 //	public void addInterceptors(InterceptorRegistry registery) {
 //		registery.addInterceptor(requestHeaderInterceptor)
-//		.addPathPatterns("/note/**")
-//		.addPathPatterns("/label/**")
-//		.excludePathPatterns("/user/**")
-//		.excludePathPatterns("/note/getNoteByTitleAndDescription/**");
+//		.addPathPatterns("/note/**","/label/**")
+//		.excludePathPatterns("/note/getNoteByTitleAndDescription/**","/user/**");
 //	}
-//	
+	
 }
 

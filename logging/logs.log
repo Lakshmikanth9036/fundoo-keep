@@ -1,3 +1,0 @@
-2020-04-04 17:52:03 [http-nio-8080-exec-2] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring DispatcherServlet 'dispatcherServlet'
-2020-04-04 17:52:03 [http-nio-8080-exec-4] INFO  com.bridgelabz.fundookeep.service.NoteServiceProvider %PARSER_ERROR[x] -Change color method
-2020-04-04 17:52:12 [I/O dispatcher 1] WARN  org.elasticsearch.client.RequestLogger %PARSER_ERROR[x] -request [POST http://localhost:9200/notes/_doc/13/_update?timeout=1m] returned 1 warnings: [299 Elasticsearch-7.6.1-aa751e09be0a5072e8570670309b1f12348f023b "[types removal] Specifying types in document update requests is deprecated, use the endpoint /{index}/_update/{id} instead."]
