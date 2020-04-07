@@ -37,6 +37,10 @@ public class LabelServiceProvider implements LabelService{
 	@Autowired
 	private JwtUtils jwt;
 	
+	
+	/**
+	 * Create a new label
+	 */
 	public Response createLabel(String token, LabelDTO labelDTO) {
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
@@ -50,7 +54,10 @@ public class LabelServiceProvider implements LabelService{
 		}
 		return new Response(HttpStatus.ALREADY_REPORTED.value(),env.getProperty("108") ,labelDTO);
 	}
-	 
+	
+	/**
+	 * Update the existing label based on it's id
+	 */
 	@Transactional
 	public void updateLabel(String token,  LabelDTO labelDTO, Long lId) {
 		Long uId = jwt.decodeToken(token);
@@ -61,6 +68,9 @@ public class LabelServiceProvider implements LabelService{
 		repository.save(user);
 	}
 	
+	/**
+	 * Delete the label based on it's id
+	 */
 	@Transactional
 	public void deleteLabel(String token, Long lId) {
 		Long uId = jwt.decodeToken(token);
@@ -72,6 +82,9 @@ public class LabelServiceProvider implements LabelService{
 		repository.save(user);
 	}
 	
+	/**
+	 * Get all labels of the user
+	 */
 	public List<Label> getAllLables(String token){
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));
@@ -79,6 +92,9 @@ public class LabelServiceProvider implements LabelService{
 		return labels;
 	}
 	
+	/**
+	 * Get all notes labeled of perticular id 
+	 */
 	public List<Note> getNoteByLabel(String token, Long lid){
 		Long uId = jwt.decodeToken(token);
 		User user = repository.findById(uId).orElseThrow(() -> new UserException(404,env.getProperty("104")));

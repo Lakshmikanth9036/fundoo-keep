@@ -73,7 +73,6 @@ public class UserServiceProvider implements UserService {
 
 	/**
 	 * Update the user verification status if the received token is valid
-	 * 
 	 * @return integer value that is number of record that had been updated
 	 */
 	@Override
@@ -88,7 +87,6 @@ public class UserServiceProvider implements UserService {
 
 	/**
 	 * Login to the application using login credential
-	 * 
 	 * @return user details which is necessary
 	 */
 	@Override

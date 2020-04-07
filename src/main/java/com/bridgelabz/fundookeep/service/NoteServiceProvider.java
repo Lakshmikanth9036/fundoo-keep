@@ -139,6 +139,7 @@ public class NoteServiceProvider implements NoteService {
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst()
 				.orElseThrow(() -> new NoteException(404, env.getProperty("105")));
 		filteredNote.setTrash(!filteredNote.isTrash());
+		filteredNote.setPin(false);
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
@@ -156,6 +157,7 @@ public class NoteServiceProvider implements NoteService {
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst()
 				.orElseThrow(() -> new NoteException(404, env.getProperty("105")));
 		filteredNote.setArchived(!filteredNote.isArchived());
+		filteredNote.setPin(false);
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
@@ -173,6 +175,7 @@ public class NoteServiceProvider implements NoteService {
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(noteId)).findFirst()
 				.orElseThrow(() -> new NoteException(404, env.getProperty("105")));
 		filteredNote.setPin(!filteredNote.isPin());
+		filteredNote.setArchived(false);
 		filteredNote.setNoteUpdated(LocalDateTime.now());
 		repository.save(user);
 
