@@ -1,0 +1,260 @@
+2020-04-08 16:38:35 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Starting NoteControllerTest on DESKTOP-VJE8VFV with PID 18916 (started by lakshmikanth in C:\Users\lakshmikanth\git\fundoo-keep)
+2020-04-08 16:38:35 [main] INFO  org.springframework.boot.SpringApplication %PARSER_ERROR[x] -The following profiles are active: dev
+2020-04-08 16:38:37 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter %PARSER_ERROR[x] -
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field nService in com.bridgelabz.fundookeep.controller.NoteController required a bean of type 'com.bridgelabz.fundookeep.service.NoteService' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.bridgelabz.fundookeep.service.NoteService' in your configuration.
+
+2020-04-08 16:38:38 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Starting NoteControllerTest on DESKTOP-VJE8VFV with PID 18916 (started by lakshmikanth in C:\Users\lakshmikanth\git\fundoo-keep)
+2020-04-08 16:38:38 [main] INFO  org.springframework.boot.SpringApplication %PARSER_ERROR[x] -The following profiles are active: dev
+2020-04-08 16:38:38 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter %PARSER_ERROR[x] -
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field nService in com.bridgelabz.fundookeep.controller.NoteController required a bean of type 'com.bridgelabz.fundookeep.service.NoteService' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.bridgelabz.fundookeep.service.NoteService' in your configuration.
+
+2020-04-08 16:38:38 [main] ERROR org.springframework.test.context.TestContextManager %PARSER_ERROR[x] -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@68e5eea7] to prepare test instance [com.bridgelabz.fundookeep.test.NoteControllerTest@4d5650ae]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:132) ~[spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:123) ~[spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118) ~[spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83) ~[spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:43) ~[spring-boot-test-autoconfigure-2.2.5.RELEASE.jar:2.2.5.RELEASE]
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:244) ~[spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58) [junit-4.12.jar:4.12]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363) [junit-4.12.jar:4.12]
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190) [spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137) [junit-4.12.jar:4.12]
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:115) [junit-4.12.jar:4.12]
+	at org.junit.vintage.engine.execution.RunnerExecutor.execute(RunnerExecutor.java:40) [junit-vintage-engine-5.5.2.jar:5.5.2]
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184) ~[na:1.8.0_201]
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193) ~[na:1.8.0_201]
+	at java.util.Iterator.forEachRemaining(Iterator.java:116) ~[na:1.8.0_201]
+	at java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1801) ~[na:1.8.0_201]
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481) ~[na:1.8.0_201]
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471) ~[na:1.8.0_201]
+	at java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151) ~[na:1.8.0_201]
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174) ~[na:1.8.0_201]
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[na:1.8.0_201]
+	at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418) ~[na:1.8.0_201]
+	at org.junit.vintage.engine.VintageTestEngine.executeAllChildren(VintageTestEngine.java:80) ~[junit-vintage-engine-5.5.2.jar:5.5.2]
+	at org.junit.vintage.engine.VintageTestEngine.execute(VintageTestEngine.java:71) ~[junit-vintage-engine-5.5.2.jar:5.5.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:229) ~[junit-platform-launcher-1.5.2.jar:1.5.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.lambda$execute$6(DefaultLauncher.java:197) ~[junit-platform-launcher-1.5.2.jar:1.5.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.withInterceptedStreams(DefaultLauncher.java:211) ~[junit-platform-launcher-1.5.2.jar:1.5.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:191) ~[junit-platform-launcher-1.5.2.jar:1.5.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:137) ~[junit-platform-launcher-1.5.2.jar:1.5.2]
+	at org.eclipse.jdt.internal.junit5.runner.JUnit5TestReference.run(JUnit5TestReference.java:89) ~[.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:41) ~[.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:542) ~[.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:770) ~[.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:464) ~[.cp/:na]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:210) ~[.cp/:na]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'noteController': Unsatisfied dependency expressed through field 'nService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.bridgelabz.fundookeep.service.NoteService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:643) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:130) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878) ~[spring-context-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550) ~[spring-context-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747) ~[spring-boot-2.2.5.RELEASE.jar:2.2.5.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397) ~[spring-boot-2.2.5.RELEASE.jar:2.2.5.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) ~[spring-boot-2.2.5.RELEASE.jar:2.2.5.RELEASE]
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:126) ~[spring-boot-test-2.2.5.RELEASE.jar:2.2.5.RELEASE]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:99) ~[spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:124) ~[spring-test-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	... 46 common frames omitted
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.bridgelabz.fundookeep.service.NoteService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1695) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1253) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640) ~[spring-beans-5.2.4.RELEASE.jar:5.2.4.RELEASE]
+	... 64 common frames omitted
+2020-04-08 18:15:42 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Starting FundooKeepApplication on DESKTOP-VJE8VFV with PID 25920 (C:\Users\lakshmikanth\git\fundoo-keep\target\classes started by root in C:\Users\lakshmikanth\git\fundoo-keep)
+2020-04-08 18:15:42 [main] INFO  org.springframework.boot.SpringApplication %PARSER_ERROR[x] -The following profiles are active: dev
+2020-04-08 18:15:47 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting service [Tomcat]
+2020-04-08 18:15:47 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-04-08 18:15:47 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring embedded WebApplicationContext
+2020-04-08 18:15:48 [main] INFO  org.hibernate.jpa.internal.util.LogHelper %PARSER_ERROR[x] -HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-04-08 18:15:48 [main] INFO  org.hibernate.Version %PARSER_ERROR[x] -HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-04-08 18:15:49 [main] INFO  org.hibernate.annotations.common.reflection.java.JavaReflectionManager %PARSER_ERROR[x] -HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-04-08 18:15:49 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Starting...
+2020-04-08 18:15:50 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Start completed.
+2020-04-08 18:15:50 [main] INFO  org.hibernate.dialect.Dialect %PARSER_ERROR[x] -HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-04-08 18:15:52 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator %PARSER_ERROR[x] -HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-04-08 18:15:52 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown initiated...
+2020-04-08 18:15:52 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown completed.
+2020-04-08 18:15:52 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Stopping service [Tomcat]
+2020-04-08 18:15:52 [main] ERROR org.springframework.boot.SpringApplication %PARSER_ERROR[x] -Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'amazonS3Config': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'accesskey' in value "${accesskey}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.bridgelabz.fundookeep.FundooKeepApplication.main(FundooKeepApplication.java:17)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'accesskey' in value "${accesskey}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveNestedPlaceholders(AbstractPropertyResolver.java:227)
+	at org.springframework.core.env.PropertySourcesPropertyResolver.getProperty(PropertySourcesPropertyResolver.java:88)
+	at org.springframework.core.env.PropertySourcesPropertyResolver.getProperty(PropertySourcesPropertyResolver.java:62)
+	at org.springframework.core.env.AbstractEnvironment.getProperty(AbstractEnvironment.java:535)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$1.getProperty(PropertySourcesPlaceholderConfigurer.java:137)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$1.getProperty(PropertySourcesPlaceholderConfigurer.java:133)
+	at org.springframework.core.env.PropertySourcesPropertyResolver.getProperty(PropertySourcesPropertyResolver.java:85)
+	at org.springframework.core.env.PropertySourcesPropertyResolver.getPropertyAsRawString(PropertySourcesPropertyResolver.java:74)
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:151)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:909)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:130)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 17 common frames omitted
+2020-04-08 18:18:34 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Starting FundooKeepApplication on DESKTOP-VJE8VFV with PID 25524 (C:\Users\lakshmikanth\git\fundoo-keep\target\classes started by root in C:\Users\lakshmikanth\git\fundoo-keep)
+2020-04-08 18:18:34 [main] INFO  org.springframework.boot.SpringApplication %PARSER_ERROR[x] -The following profiles are active: dev
+2020-04-08 18:18:35 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting service [Tomcat]
+2020-04-08 18:18:35 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-04-08 18:18:36 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring embedded WebApplicationContext
+2020-04-08 18:18:36 [main] INFO  org.hibernate.jpa.internal.util.LogHelper %PARSER_ERROR[x] -HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-04-08 18:18:36 [main] INFO  org.hibernate.Version %PARSER_ERROR[x] -HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-04-08 18:18:36 [main] INFO  org.hibernate.annotations.common.reflection.java.JavaReflectionManager %PARSER_ERROR[x] -HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-04-08 18:18:36 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Starting...
+2020-04-08 18:18:36 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Start completed.
+2020-04-08 18:18:36 [main] INFO  org.hibernate.dialect.Dialect %PARSER_ERROR[x] -HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-04-08 18:18:37 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator %PARSER_ERROR[x] -HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-04-08 18:18:41 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping %PARSER_ERROR[x] -Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-04-08 18:18:43 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Context refreshed
+2020-04-08 18:18:43 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Found 1 custom documentation plugin(s)
+2020-04-08 18:18:43 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner %PARSER_ERROR[x] -Scanning for api listing references
+2020-04-08 18:18:43 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Started FundooKeepApplication in 9.768 seconds (JVM running for 10.635)
+2020-04-08 18:18:57 [http-nio-8080-exec-1] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-08 18:20:45 [http-nio-8080-exec-4] ERROR com.bridgelabz.fundookeep.service.AmazonS3ServiceProvider %PARSER_ERROR[x] -error [Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; Request ID: B063B8972110A6D5)] occurred while uploading [24040490.jpg] 
+2020-04-08 18:56:35 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool$HouseKeeper %PARSER_ERROR[x] -HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=31m58s930ms468µs700ns).
+2020-04-08 18:58:33 [RMI TCP Connection(20)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown initiated...
+2020-04-08 18:58:33 [RMI TCP Connection(20)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown completed.
+2020-04-08 18:58:46 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Starting FundooKeepApplication on DESKTOP-VJE8VFV with PID 9784 (C:\Users\lakshmikanth\git\fundoo-keep\target\classes started by root in C:\Users\lakshmikanth\git\fundoo-keep)
+2020-04-08 18:58:46 [main] INFO  org.springframework.boot.SpringApplication %PARSER_ERROR[x] -The following profiles are active: dev
+2020-04-08 18:58:53 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting service [Tomcat]
+2020-04-08 18:58:53 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-04-08 18:58:53 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring embedded WebApplicationContext
+2020-04-08 18:58:54 [main] INFO  org.hibernate.jpa.internal.util.LogHelper %PARSER_ERROR[x] -HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-04-08 18:58:54 [main] INFO  org.hibernate.Version %PARSER_ERROR[x] -HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-04-08 18:58:55 [main] INFO  org.hibernate.annotations.common.reflection.java.JavaReflectionManager %PARSER_ERROR[x] -HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-04-08 18:58:55 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Starting...
+2020-04-08 18:58:56 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Start completed.
+2020-04-08 18:58:56 [main] INFO  org.hibernate.dialect.Dialect %PARSER_ERROR[x] -HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-04-08 18:58:59 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator %PARSER_ERROR[x] -HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-04-08 18:59:05 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping %PARSER_ERROR[x] -Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-04-08 18:59:06 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Context refreshed
+2020-04-08 18:59:06 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Found 1 custom documentation plugin(s)
+2020-04-08 18:59:07 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner %PARSER_ERROR[x] -Scanning for api listing references
+2020-04-08 18:59:07 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Started FundooKeepApplication in 22.425 seconds (JVM running for 25.453)
+2020-04-08 18:59:49 [http-nio-8080-exec-1] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-08 19:00:40 [http-nio-8080-exec-1] ERROR com.bridgelabz.fundookeep.service.AmazonS3ServiceProvider %PARSER_ERROR[x] -error [Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; Request ID: 8AFF6F62AE08E28B)] occurred while uploading [24040490.jpg] 
+2020-04-08 19:03:31 [RMI TCP Connection(14)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown initiated...
+2020-04-08 19:03:31 [RMI TCP Connection(14)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown completed.
+2020-04-08 19:03:40 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Starting FundooKeepApplication on DESKTOP-VJE8VFV with PID 37884 (C:\Users\lakshmikanth\git\fundoo-keep\target\classes started by root in C:\Users\lakshmikanth\git\fundoo-keep)
+2020-04-08 19:03:40 [main] INFO  org.springframework.boot.SpringApplication %PARSER_ERROR[x] -The following profiles are active: dev
+2020-04-08 19:03:45 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting service [Tomcat]
+2020-04-08 19:03:45 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-04-08 19:03:45 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring embedded WebApplicationContext
+2020-04-08 19:03:46 [main] INFO  org.hibernate.jpa.internal.util.LogHelper %PARSER_ERROR[x] -HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-04-08 19:03:46 [main] INFO  org.hibernate.Version %PARSER_ERROR[x] -HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-04-08 19:03:46 [main] INFO  org.hibernate.annotations.common.reflection.java.JavaReflectionManager %PARSER_ERROR[x] -HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-04-08 19:03:46 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Starting...
+2020-04-08 19:03:47 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Start completed.
+2020-04-08 19:03:47 [main] INFO  org.hibernate.dialect.Dialect %PARSER_ERROR[x] -HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-04-08 19:03:49 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator %PARSER_ERROR[x] -HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-04-08 19:03:55 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping %PARSER_ERROR[x] -Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-04-08 19:03:57 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Context refreshed
+2020-04-08 19:03:57 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Found 1 custom documentation plugin(s)
+2020-04-08 19:03:57 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner %PARSER_ERROR[x] -Scanning for api listing references
+2020-04-08 19:03:59 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Started FundooKeepApplication in 20.081 seconds (JVM running for 23.421)
+2020-04-08 19:04:10 [http-nio-8080-exec-1] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-08 19:04:58 [http-nio-8080-exec-1] ERROR com.bridgelabz.fundookeep.service.AmazonS3ServiceProvider %PARSER_ERROR[x] -error [Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; Request ID: C8A2E0030661866B)] occurred while uploading [24040490.jpg] 
+2020-04-08 19:10:07 [RMI TCP Connection(19)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown initiated...
+2020-04-08 19:10:07 [RMI TCP Connection(19)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Shutdown completed.
+2020-04-08 19:11:47 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Starting FundooKeepApplication on DESKTOP-VJE8VFV with PID 53020 (C:\Users\lakshmikanth\git\fundoo-keep\target\classes started by root in C:\Users\lakshmikanth\git\fundoo-keep)
+2020-04-08 19:11:47 [main] INFO  org.springframework.boot.SpringApplication %PARSER_ERROR[x] -The following profiles are active: dev
+2020-04-08 19:11:52 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting service [Tomcat]
+2020-04-08 19:11:52 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-04-08 19:11:53 [main] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring embedded WebApplicationContext
+2020-04-08 19:11:53 [main] INFO  org.hibernate.jpa.internal.util.LogHelper %PARSER_ERROR[x] -HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-04-08 19:11:53 [main] INFO  org.hibernate.Version %PARSER_ERROR[x] -HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-04-08 19:11:54 [main] INFO  org.hibernate.annotations.common.reflection.java.JavaReflectionManager %PARSER_ERROR[x] -HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-04-08 19:11:54 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Starting...
+2020-04-08 19:11:54 [main] INFO  com.zaxxer.hikari.HikariDataSource %PARSER_ERROR[x] -HikariPool-1 - Start completed.
+2020-04-08 19:11:54 [main] INFO  org.hibernate.dialect.Dialect %PARSER_ERROR[x] -HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-04-08 19:11:57 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator %PARSER_ERROR[x] -HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-04-08 19:12:02 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping %PARSER_ERROR[x] -Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-04-08 19:12:04 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Context refreshed
+2020-04-08 19:12:04 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper %PARSER_ERROR[x] -Found 1 custom documentation plugin(s)
+2020-04-08 19:12:05 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner %PARSER_ERROR[x] -Scanning for api listing references
+2020-04-08 19:12:06 [main] INFO  org.springframework.boot.StartupInfoLogger %PARSER_ERROR[x] -Started FundooKeepApplication in 19.677 seconds (JVM running for 22.219)
+2020-04-08 19:13:25 [http-nio-8080-exec-1] INFO  org.apache.juli.logging.DirectJDKLog %PARSER_ERROR[x] -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-08 19:13:46 [http-nio-8080-exec-1] ERROR com.bridgelabz.fundookeep.service.AmazonS3ServiceProvider %PARSER_ERROR[x] -error [Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; Request ID: C12AAABF24C98D56)] occurred while uploading [24040490.jpg] 
+2020-04-08 19:15:24 [http-nio-8080-exec-2] ERROR com.bridgelabz.fundookeep.service.AmazonS3ServiceProvider %PARSER_ERROR[x] -error [Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; Request ID: D0875E20437C755C)] occurred while uploading [24040490.jpg] 

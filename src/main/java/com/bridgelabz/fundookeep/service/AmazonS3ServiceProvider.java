@@ -1,43 +1,79 @@
 package com.bridgelabz.fundookeep.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.bridgelabz.fundookeep.dao.User;
+import com.bridgelabz.fundookeep.exception.UserException;
+import com.bridgelabz.fundookeep.repository.UserRepository;
+import com.bridgelabz.fundookeep.utils.JwtUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class AmazonS3ServiceProvider {
+@PropertySource("classpath:message.properties")
+public class AmazonS3ServiceProvider implements AmazonS3Service{
 	
 	@Value("${aws.bucket.name}")
     private String bucketName;
 
     @Autowired
     private  AmazonS3 amazonS3Client;
+    
+    @Autowired
+	private JwtUtils jwt;
+    
+    @Autowired
+	private UserRepository repository;
+    
+    @Autowired
+	private Environment env;
 
-    public URL storeObjectInS3(MultipartFile file, String fileName, String contentType) {
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(contentType);
-        objectMetadata.setContentLength(file.getSize());
-        //TODO add cache control
+    @Async
+    public void uploadFileToS3Bucket(MultipartFile multipartFile, boolean enablePublicReadAccess, String token) 
+    {
+    	Long uId = jwt.decodeToken(token);
+    	User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
+        String fileName = multipartFile.getOriginalFilename();
+        user.setProfilePic(fileName);
+      
         try {
-            amazonS3Client.putObject(bucketName, fileName,file.getInputStream(), objectMetadata);
-        } catch(AmazonClientException |IOException exception) {
-            throw new RuntimeException("Error while uploading file.");
+            //creating the file in the server (temporarily)
+            File file = new File(fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(multipartFile.getBytes());
+            fos.close();
+
+            PutObjectRequest putObjectRequest = new PutObjectRequest(this.bucketName, fileName, file);
+
+            if (enablePublicReadAccess) {
+                putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead);
+            }
+            this.amazonS3Client.putObject(putObjectRequest);
+            //removing the file created in the server
+            file.delete();
+            repository.save(user);
+        } catch (IOException | AmazonServiceException ex) {
+            log.error("error [" + ex.getMessage() + "] occurred while uploading [" + fileName + "] ");
         }
-        return amazonS3Client.getUrl(bucketName, fileName);
     }
 
     public S3Object fetchObject(String awsFileName) {
@@ -52,14 +88,19 @@ public class AmazonS3ServiceProvider {
         return s3Object;
     }
 
-    public void deleteObject(String key) {
-        try {
-            amazonS3Client.deleteObject(bucketName, key);
-        }catch (AmazonServiceException serviceException) {
-            log.error(serviceException.getErrorMessage());
-        } catch (AmazonClientException exception) {
-            log.error("Error while deleting File.");
-        }
-    }
+    @Async
+    public void deleteFileFromS3Bucket(String fileName,String token) 
+    {
+    	Long uId = jwt.decodeToken(token);
+    	User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
+        user.setProfilePic(null);
+    	
 
+        try {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        } catch (AmazonServiceException ex) {
+        	throw new UserException(500, env.getProperty("500"));
+        }
+        repository.save(user);
+    }
 }
