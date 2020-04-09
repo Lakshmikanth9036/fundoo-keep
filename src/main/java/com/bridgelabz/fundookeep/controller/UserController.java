@@ -112,4 +112,9 @@ public class UserController {
     	String url = awsService.fetchObjectURL(token);
     	return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("217"), url));
     }
+    
+    @GetMapping("/getProfileDetails")
+    public ResponseEntity<Response> getProfileDetails(@RequestHeader(name = "header") String token) {
+    	return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("218"), service.getProfileDetails(token)));
+    }
 }

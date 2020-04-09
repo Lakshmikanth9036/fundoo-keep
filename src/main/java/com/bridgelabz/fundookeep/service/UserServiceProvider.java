@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundookeep.config.Consumer;
 import com.bridgelabz.fundookeep.config.Producer;
 import com.bridgelabz.fundookeep.constants.Constants;
+import com.bridgelabz.fundookeep.dao.Note;
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.LoginResponse;
 import com.bridgelabz.fundookeep.dto.Mail;
+import com.bridgelabz.fundookeep.dto.ProfileDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 import com.bridgelabz.fundookeep.exception.UserException;
 import com.bridgelabz.fundookeep.repository.UserRepository;
@@ -135,6 +137,20 @@ public class UserServiceProvider implements UserService {
 	public int resetPassword(String token, String newPassword) {
 		Long id = jwt.decodeToken(token);
 		return repository.updatePassword(id, encoder.encode(newPassword), LocalDateTime.now());
+	}
+	
+	/**
+	 * To get the profile details
+	 */
+	@Override
+	public ProfileDTO getProfileDetails(String token) {
+		Long uId = jwt.decodeToken(token);
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
+		ProfileDTO profile = new ProfileDTO();
+		profile.setFirstName(user.getFirstName());
+		profile.setLastName(user.getLastName());
+		profile.setEmailAddress(user.getEmailAddress());
+		return profile;
 	}
 
 }
