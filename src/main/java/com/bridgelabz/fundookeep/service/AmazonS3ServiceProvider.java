@@ -20,12 +20,14 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.bridgelabz.fundookeep.dao.User;
 import com.bridgelabz.fundookeep.exception.UserException;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
 
 import lombok.extern.slf4j.Slf4j;
+import java.net.URL;
 
 @Service
 @Slf4j
@@ -54,7 +56,7 @@ public class AmazonS3ServiceProvider implements AmazonS3Service{
     	User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
         String fileName = multipartFile.getOriginalFilename();
         user.setProfilePic(fileName);
-      
+        System.out.println(bucketName);
         try {
             //creating the file in the server (temporarily)
             File file = new File(fileName);
@@ -86,6 +88,17 @@ public class AmazonS3ServiceProvider implements AmazonS3Service{
             throw new RuntimeException("Error while streaming File.");
         }
         return s3Object;
+    }
+    
+    public String fetchObjectURL(String token) {
+    	Long uId = jwt.decodeToken(token);
+    	User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
+    	
+    	String objectKey = user.getProfilePic();
+    	GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                new GeneratePresignedUrlRequest(bucketName, objectKey);
+    	URL url=amazonS3Client.generatePresignedUrl(generatePresignedUrlRequest);
+    	return url.toString();
     }
 
     @Async

@@ -4,8 +4,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface AmazonS3Service {
 
-	void uploadFileToS3Bucket(MultipartFile multipartFile, boolean enablePublicReadAccess,String token);
+	public void uploadFileToS3Bucket(MultipartFile multipartFile, boolean enablePublicReadAccess,String token);
 
-    void deleteFileFromS3Bucket(String fileName,String token);
+    public void deleteFileFromS3Bucket(String fileName,String token);
     
+    public String fetchObjectURL(String token);
 }
