@@ -11,6 +11,15 @@ public class NoteDTO {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public NoteDTO(String title, String description, String color) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.color = color;
+	}
+
+
+
 	public String getTitle() {
 		return title;
 	}

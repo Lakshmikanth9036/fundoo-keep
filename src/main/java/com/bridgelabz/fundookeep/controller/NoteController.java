@@ -153,8 +153,4 @@ public class NoteController {
 		return ResponseEntity.ok().body(nService.removeLabel(token, noteId, labelId));
 	}
 	
-	
-	
-	
-	
 }
