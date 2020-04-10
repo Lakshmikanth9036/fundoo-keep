@@ -77,7 +77,7 @@ public class UserController {
 	}
 
 	@PutMapping("/resetpassword/{token}")
-	private ResponseEntity<Response> userLoginForgotpasswordVerify(@PathVariable String token,
+	private ResponseEntity<Response> resetpassword(@PathVariable String token,
 			@RequestParam String newPassword) {
 		if(service.resetPassword(token, newPassword)>0)
 			return ResponseEntity.status(HttpStatus.OK).body(new Response(HttpStatus.OK.value(), env.getProperty("203")));

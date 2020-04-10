@@ -66,6 +66,22 @@ public class NoteControllerTests {
 	}
 	
 	@Test
+	public void getRemainderNotesTest() throws Exception {
+		
+		mockMvc.perform(get("/note/getRemainderNotes").header("header",
+				"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIn0.1e509W4ZgPedrXBS8RTGEt1qcqIZhLmjPVZHaolDMc1tn108ypOxFTPDg2jAYa0hXR-W3O9rF3H3lLGRmGBwUA")
+				.accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void getNoteByTitleAndDescriptionTest() throws Exception {
+		
+		mockMvc.perform(get("/note/getNoteByTitleAndDescription/{text}","kk").header("header",
+				"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIn0.1e509W4ZgPedrXBS8RTGEt1qcqIZhLmjPVZHaolDMc1tn108ypOxFTPDg2jAYa0hXR-W3O9rF3H3lLGRmGBwUA")
+				.accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());
+	}
+	
+	@Test
 	public void pinNoteTest() throws Exception {
 		
 		mockMvc.perform(put("/note/pin/{nId}",11).header("header",

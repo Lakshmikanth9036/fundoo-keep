@@ -9,6 +9,12 @@ public class LoginDTO {
 		// TODO Auto-generated constructor stub
 	}
 
+	public LoginDTO(String mailOrMobile, String password) {
+		super();
+		this.mailOrMobile = mailOrMobile;
+		this.password = password;
+	}
+
 	public String getMailOrMobile() {
 		return mailOrMobile;
 	}
