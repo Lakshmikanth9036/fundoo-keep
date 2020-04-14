@@ -23,7 +23,7 @@ public class Collaborator {
 	@Column(name="fromMail")
 	private String from;
 	
-	@Column(name="toMail",unique = true)
+	@Column(name="toMail")
 	private String to;
 	
 

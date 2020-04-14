@@ -37,8 +37,8 @@ public class CollaboratorController {
 	}
 	
 	@DeleteMapping("/deleteCollaborator")
-	private ResponseEntity<Response> deleteCollaborator(@RequestHeader(name = "header") String token, @RequestParam Long nId,@RequestParam Long cId ){
-		cService.removeCollaborator(token, cId, nId);
+	private ResponseEntity<Response> deleteCollaborator(@RequestParam String mail, @RequestParam Long nId,@RequestParam Long cId ){
+		cService.removeCollaborator(mail, cId, nId);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), "Remove Collaborator!!!"));
 		
 	}
