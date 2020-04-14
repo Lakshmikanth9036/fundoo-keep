@@ -93,10 +93,10 @@ public class CollaboratorServiceProvider implements CollaboratorService{
 	}
 	
 	@Transactional
-	public void removeCollaborator(String mail,Long cId,Long nId) {		
-		Optional<User> u = repository.findByEmailAddress(mail);
-		if(u.isPresent()) {
-		User user = u.get();
+	public void removeCollaborator(String token,Long cId,Long nId) {
+		Long uId = jwt.decodeToken(token);
+		
+		User user = repository.findById(uId).orElseThrow(() -> new UserException(404, env.getProperty("104")));
 		List<Note> notes = user.getNotes();
 		Note filteredNote = notes.stream().filter(note -> note.getNoteId().equals(nId)).findFirst()
 				.orElseThrow(() -> new NoteException(404, env.getProperty("105")));
@@ -115,10 +115,6 @@ public class CollaboratorServiceProvider implements CollaboratorService{
 		collaborators.remove(col);
 		crepository.deleteById(col.getCId());
 		repository.save(user);
-		}
-		else {
-			throw new NoteException(500, "Email address dosnt exist");
-		}
 	}
 	
 }
