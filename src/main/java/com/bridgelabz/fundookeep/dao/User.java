@@ -9,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.bridgelabz.fundookeep.dto.Collaborator;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 
 @Entity
@@ -57,6 +59,9 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "UserId")
 	private List<Label> labels;
+	
+	@ManyToMany
+	private List<Collaborator> collaborators;
 
 	public User() {
 	}
@@ -167,5 +172,15 @@ public class User {
 	public void setLabels(List<Label> labels) {
 		this.labels = labels;
 	}
+
+	public List<Collaborator> getCollaborators() {
+		return collaborators;
+	}
+
+	public void setCollaborators(List<Collaborator> collaborators) {
+		this.collaborators = collaborators;
+	}
+	
+	
 
 }

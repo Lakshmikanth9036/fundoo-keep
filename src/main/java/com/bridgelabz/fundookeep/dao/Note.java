@@ -6,13 +6,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.bridgelabz.fundookeep.dto.Collaborator;
 import com.bridgelabz.fundookeep.dto.NoteDTO;
 
 @Entity
@@ -54,7 +54,10 @@ public class Note {
 	@ManyToMany(cascade = CascadeType.REMOVE)
 	private List<Label> labels;
 	
-
+	@ManyToMany(cascade = CascadeType.REMOVE)
+	private List<Collaborator> collaborators;
+	
+	
 	public Note() {
 	}
 	
@@ -158,6 +161,14 @@ public class Note {
 
 	public void setReminder(LocalDateTime reminder) {
 		this.reminder = reminder;
+	}
+
+	public List<Collaborator> getCollaborators() {
+		return collaborators;
+	}
+
+	public void setCollaborators(List<Collaborator> collaborators) {
+		this.collaborators = collaborators;
 	}
 
 	@Override

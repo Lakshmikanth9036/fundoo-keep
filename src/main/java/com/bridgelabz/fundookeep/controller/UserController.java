@@ -86,10 +86,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/uploadProfile")
-    public Map<String, String> uploadProfile(@RequestPart(value = "file") MultipartFile file,@RequestPart("token") String token)
+    public Map<String, String> uploadProfile(@RequestPart(value = "file") MultipartFile file,@RequestHeader(name = "header") String token)
     {
-        awsService.uploadFileToS3Bucket(file, true,token);
-
+		awsService.uploadFileToS3Bucket(file, true,token);
         Map<String, String> response = new HashMap<>();
         response.put("message", "file [" + file.getOriginalFilename() + "] uploading request submitted successfully.");
 

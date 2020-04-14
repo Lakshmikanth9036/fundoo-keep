@@ -18,6 +18,14 @@ public class CustomeGlobalExceptionHandler extends ResponseEntityExceptionHandle
 		return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(NoteException.class)
+	public ResponseEntity<ResponseError> noteException(NoteException ex){
+		ResponseError error = new ResponseError();
+		error.setError(ex.getErrorMsg());
+		error.setStatus(ex.getErrorCode());
+		return new ResponseEntity<ResponseError>(error,HttpStatus.BAD_REQUEST);
+	}
+	
 	@ExceptionHandler(TokenException.class)
 	public ResponseEntity<ResponseError> customeTokenException(TokenException ex){
 		ResponseError error = new ResponseError();
