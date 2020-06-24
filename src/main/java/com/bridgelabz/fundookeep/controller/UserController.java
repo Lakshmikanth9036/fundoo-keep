@@ -1,8 +1,5 @@
 package com.bridgelabz.fundookeep.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,24 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundookeep.dto.LoginDTO;
 import com.bridgelabz.fundookeep.dto.LoginResponse;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
 import com.bridgelabz.fundookeep.dto.Response;
-import com.bridgelabz.fundookeep.service.AmazonS3Service;
 import com.bridgelabz.fundookeep.service.UserService;
 
 @RestController
@@ -41,8 +33,8 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
-	@Autowired
-	private AmazonS3Service awsService;
+//	@Autowired
+//	private AmazonS3Service awsService;
 	
 	@Autowired
 	private Environment env;
@@ -54,6 +46,11 @@ public class UserController {
 		service.saveUser(register);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("200")));
 	}
+	
+	@GetMapping("/hello/{text}")
+	public ResponseEntity<String> welcomeUser(@PathVariable String text){
+		return ResponseEntity.ok().body(text);
+	}
 
 	@PutMapping("/registration/verify/{token}")
 	private ResponseEntity<Response> userLoginVerification(@PathVariable String token) {
@@ -63,7 +60,7 @@ public class UserController {
 	}
 
 	@PutMapping("/login")
-	private ResponseEntity<LoginResponse> userLoginWithEmail(@RequestBody LoginDTO login) {
+	public ResponseEntity<LoginResponse> userLoginWithEmail(@RequestBody LoginDTO login) {
 		LoginResponse userResponse = service.loginByEmailOrMobile(login);
 			return ResponseEntity.ok().body(userResponse);
 		
@@ -85,35 +82,35 @@ public class UserController {
 				.body(new Response(HttpStatus.BAD_REQUEST.value(), env.getProperty("402")));
 	}
 	
-	@PostMapping("/uploadProfile")
-    public Map<String, String> uploadProfile(@RequestPart(value = "file") MultipartFile file,@RequestHeader(name = "header") String token)
-    {
-		awsService.uploadFileToS3Bucket(file, true,token);
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "file [" + file.getOriginalFilename() + "] uploading request submitted successfully.");
-
-        return response;
-    }
-
-    @DeleteMapping("/deleteProfile")
-    public Map<String, String> deleteProfile(@RequestParam("file_name") String fileName,@RequestPart("token") String token)
-    {
-        awsService.deleteFileFromS3Bucket(fileName,token);
-
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "file [" + fileName + "] removing request submitted successfully.");
-
-        return response;
-    }
-
-    @GetMapping("/getProfile")
-    public ResponseEntity<Response> getProfile(@RequestHeader(name = "header") String token) {
-    	String url = awsService.fetchObjectURL(token);
-    	return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("217"), url));
-    }
-    
-    @GetMapping("/getProfileDetails")
-    public ResponseEntity<Response> getProfileDetails(@RequestHeader(name = "header") String token) {
-    	return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("218"), service.getProfileDetails(token)));
-    }
+//	@PostMapping("/uploadProfile")
+//    public Map<String, String> uploadProfile(@RequestPart(value = "file") MultipartFile file,@RequestHeader(name = "header") String token)
+//    {
+//		awsService.uploadFileToS3Bucket(file, true,token);
+//        Map<String, String> response = new HashMap<>();
+//        response.put("message", "file [" + file.getOriginalFilename() + "] uploading request submitted successfully.");
+//
+//        return response;
+//    }
+//
+//    @DeleteMapping("/deleteProfile")
+//    public Map<String, String> deleteProfile(@RequestParam("file_name") String fileName,@RequestPart("token") String token)
+//    {
+//        awsService.deleteFileFromS3Bucket(fileName,token);
+//
+//        Map<String, String> response = new HashMap<>();
+//        response.put("message", "file [" + fileName + "] removing request submitted successfully.");
+//
+//        return response;
+//    }
+//
+//    @GetMapping("/getProfile")
+//    public ResponseEntity<Response> getProfile(@RequestHeader(name = "header") String token) {
+//    	String url = awsService.fetchObjectURL(token);
+//    	return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("217"), url));
+//    }
+//    
+//    @GetMapping("/getProfileDetails")
+//    public ResponseEntity<Response> getProfileDetails(@RequestHeader(name = "header") String token) {
+//    	return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("218"), service.getProfileDetails(token)));
+//    }
 }
