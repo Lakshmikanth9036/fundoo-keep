@@ -26,18 +26,18 @@ public class CollaboratorController {
 	private CollaboratorService cService;
 	
 	@PostMapping("/add")
-	private ResponseEntity<Response> addCollaborator(@RequestHeader(name = "header") String token,@RequestParam String emailAddress,@RequestParam Long nId){
+	public ResponseEntity<Response> addCollaborator(@RequestHeader(name = "header") String token,@RequestParam String emailAddress,@RequestParam Long nId){
 		cService.addCollaborator(token, emailAddress, nId);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), "Successfully added.."));
 	}
 	
 	@GetMapping("/getCollNotes")
-	private ResponseEntity<Response> getCollaboratorNote(@RequestHeader(name = "header") String token){
+	public ResponseEntity<Response> getCollaboratorNote(@RequestHeader(name = "header") String token){
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), "Collaborated Notes..", cService.getCollaboratedNote(token)));
 	}
 	
 	@DeleteMapping("/deleteCollaborator")
-	private ResponseEntity<Response> deleteCollaborator(@RequestHeader(name = "header") String token, @RequestParam Long nId,@RequestParam Long cId ){
+	public ResponseEntity<Response> deleteCollaborator(@RequestHeader(name = "header") String token, @RequestParam Long nId,@RequestParam Long cId ){
 		cService.removeCollaborator(token, cId, nId);
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), "Remove Collaborator!!!"));
 		

@@ -53,7 +53,7 @@ public class UserController {
 	}
 
 	@PutMapping("/registration/verify/{token}")
-	private ResponseEntity<Response> userLoginVerification(@PathVariable String token) {
+	public ResponseEntity<Response> userLoginVerification(@PathVariable String token) {
 		if(service.updateVerificationStatus(token)>0)
 			return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("201")));
 		return ResponseEntity.badRequest().body(new Response(HttpStatus.BAD_REQUEST.value(), env.getProperty("102")));
@@ -67,14 +67,14 @@ public class UserController {
 	}
 
 	@PostMapping("/forgotpassword")
-	private ResponseEntity<Response> userLoginForgotpassword(@RequestParam String emailAddress) {
+	public ResponseEntity<Response> userLoginForgotpassword(@RequestParam String emailAddress) {
 		service.sendTokentoMail(emailAddress);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new Response(HttpStatus.GONE.value(), env.getProperty("403")));
 	}
 
 	@PutMapping("/resetpassword/{token}")
-	private ResponseEntity<Response> resetpassword(@PathVariable String token,
+	public ResponseEntity<Response> resetpassword(@PathVariable String token,
 			@RequestParam String newPassword) {
 		if(service.resetPassword(token, newPassword)>0)
 			return ResponseEntity.status(HttpStatus.OK).body(new Response(HttpStatus.OK.value(), env.getProperty("203")));
