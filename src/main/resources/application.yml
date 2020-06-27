@@ -10,6 +10,11 @@ spring:
     password: ${mailPassword}
   rabbitmq:    username: guest
     password: guest
+    
+twilio:
+  account_sid: ${account_sid}
+  auth_token: ${auth_token}
+  trial_number: ${trial_number}
   
     
 ---

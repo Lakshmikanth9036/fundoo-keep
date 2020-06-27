@@ -47,11 +47,6 @@ public class UserController {
 		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(), env.getProperty("200")));
 	}
 	
-	@GetMapping("/hello/{text}")
-	public ResponseEntity<String> welcomeUser(@PathVariable String text){
-		return ResponseEntity.ok().body(text);
-	}
-
 	@PutMapping("/registration/verify/{token}")
 	public ResponseEntity<Response> userLoginVerification(@PathVariable String token) {
 		if(service.updateVerificationStatus(token)>0)
@@ -80,6 +75,12 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(new Response(HttpStatus.OK.value(), env.getProperty("203")));
 		return ResponseEntity.badRequest()
 				.body(new Response(HttpStatus.BAD_REQUEST.value(), env.getProperty("402")));
+	}
+	
+	@PostMapping("/otp/{phoneNo}")
+	public ResponseEntity<String> sendSms(@PathVariable String phoneNo){
+		service.sendSms(phoneNo);
+		return ResponseEntity.status(HttpStatus.OK).body("OTP Sent Successfully");
 	}
 	
 //	@PostMapping("/uploadProfile")

@@ -20,9 +20,11 @@ import com.bridgelabz.fundookeep.dto.LoginResponse;
 import com.bridgelabz.fundookeep.dto.Mail;
 import com.bridgelabz.fundookeep.dto.ProfileDTO;
 import com.bridgelabz.fundookeep.dto.RegistrationDTO;
+import com.bridgelabz.fundookeep.dto.SmsDTO;
 import com.bridgelabz.fundookeep.exception.UserException;
 import com.bridgelabz.fundookeep.repository.UserRepository;
 import com.bridgelabz.fundookeep.utils.JwtUtils;
+import com.bridgelabz.fundookeep.utils.SmsService;
 
 @Service
 @PropertySource("classpath:message.properties")
@@ -45,6 +47,9 @@ public class UserServiceProvider implements UserService {
 	
 	@Autowired
 	private JwtUtils jwt;
+	
+	@Autowired
+	private SmsService smsService;
 
 	/**
 	 * Saves the user details
@@ -151,6 +156,13 @@ public class UserServiceProvider implements UserService {
 		profile.setLastName(user.getLastName());
 		profile.setEmailAddress(user.getEmailAddress());
 		return profile;
+	}
+	
+	@Override
+	public void sendSms(String phoneNo) {
+		String otp = String.valueOf(((int)(Math.random()*(10000 - 1000))) + 1000);
+		SmsDTO sms = new SmsDTO(phoneNo, otp);
+		smsService.sendSms(sms);
 	}
 
 }

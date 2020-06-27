@@ -1,5 +1,8 @@
 package com.bridgelabz.fundookeep.config;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -12,7 +15,6 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +25,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.bridgelabz.fundookeep.constants.Constants;
 import com.bridgelabz.fundookeep.interceptor.RequestHeaderInterceptor;
-import com.bridgelabz.fundookeep.repository.UserRepositoryService;
 
 @Configuration
 @EnableWebMvc
