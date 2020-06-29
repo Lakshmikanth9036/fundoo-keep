@@ -1,21 +1,22 @@
 package com.bridgelabz.fundookeep.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import com.twilio.Twilio;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Configuration
+@ConfigurationProperties("twilio")
+@NoArgsConstructor
+@Data
 public class TwilioConfig {
 	
-	@Value("${account_sid}")
-	private static String accountSid;
+	private String accountSid;
 	
-	@Value("${auth_token}")
-	private static String authToken;
+	private String authToken;
 	
-	static {
-		Twilio.init(accountSid, authToken);
-	}
+	private String trialNumber;
+	
 }
 
